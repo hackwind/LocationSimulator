@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="touch_raise">10dp</dimen>
+    <dimen name="cardview_title_height">30dp</dimen>
+
+    <dimen name="padding_detail">10dp</dimen>
+
+    <dimen name="title_size">22sp</dimen>
+</resources>

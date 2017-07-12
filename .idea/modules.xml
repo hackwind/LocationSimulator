@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/LocationSimulator.iml" filepath="$PROJECT_DIR$/LocationSimulator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/materiallibrary/materiallibrary.iml" filepath="$PROJECT_DIR$/materiallibrary/materiallibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pageslidinglibrary/pageslidinglibrary.iml" filepath="$PROJECT_DIR$/pageslidinglibrary/pageslidinglibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/selectableroundedimageview/selectableroundedimageview.iml" filepath="$PROJECT_DIR$/selectableroundedimageview/selectableroundedimageview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swipebacklayout/swipebacklayout.iml" filepath="$PROJECT_DIR$/swipebacklayout/swipebacklayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/viewpagerindicator/viewpagerindicator.iml" filepath="$PROJECT_DIR$/viewpagerindicator/viewpagerindicator.iml" />
+    </modules>
+  </component>
+</project>

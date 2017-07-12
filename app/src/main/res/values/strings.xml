@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name"></string>
+    <string name="app_nick">一本口袋式的菜谱</string>
+    <string name="user_heart">用心烹饪</string>
+    <string name="worth_wait">值得等待</string>
+    <string name="drawer_favorite">我的收藏</string>
+    <string name="drawer_reward">打&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;赏</string>
+    <string name="drawer_feedback">意见反馈</string>
+    <string name="drawer_update">检查更新</string>
+    <string name="drawer_about">关&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;于</string>
+
+    <string name="welcome_enter">立&#160;即&#160;体&#160;验</string>
+    <string name="press_back_again">再按一次返回键退出</string>
+
+    <string name="tab_title_cuisine">菜系</string>
+    <string name="tab_title_foodtype">分类</string>
+    <string name="tab_title_my">我的</string>
+
+    <string name="detail_material">食材:</string>
+    <string name="detail_steps">步骤:</string>
+
+    <string name="add_favorite">收藏成功</string>
+    <string name="remove_favorite">取消收藏</string>
+
+    <string name="menu_search">搜索</string>
+    <string name="search_hint">搜索菜谱</string>
+
+    <string name="cancel">取消</string>
+    <string name="no_result">没有找到相关的菜谱哦</string>
+
+    <string name="about">关于</string>
+
+    <string name="reward">赏</string>
+    <string name="reward_tip">打赏一下胡爸</string>
+    <string name="thanks">感谢</string>
+    <string name="thanks_content">非常感谢您使用《胡爸菜谱》app,《胡爸菜谱》是由胡爸利用业余时间精心整理和开发的，开发这个app是为了能做成一份"口袋式"的菜谱，方便自己家庭和其他更多的家庭。本菜谱的资源均收集来自网络，如果有侵犯到您的权利，可以反馈给我，我将重新整理。胡爸只是挑选有代表性的做法，还有很多做法因各种原因，没有一一收纳进来。开发期间非常感谢我的爸爸妈妈和老婆，是他们耐心地在照顾的两个小宝宝，胡爸才能安心地投入这个app的开发。当然也感谢我的两个小宝宝，没有过多地过来捣乱。</string>
+    <string name="scan">扫一扫下面的二维码关注公众号</string>
+    <string name="search_gongzhonghao">或者微信搜索公众号:"胡爸菜谱"，即可在公众号里留言了</string>
+    <string name="only_one_phone"><u>只有一个手机，无法扫描，怎么办？点击我试试</u></string>
+    <string name="save_qrcode">保存二维码到相册</string>
+    <string name="after_save_qrcode">点击上面的按钮，将二维码保存到手机相册，然后打开微信扫一扫，如下图</string>
+    <string name="click_right_top">点击右上角按钮，弹出下图所示，从底部选择“从相册选择二维码”，弹出相册目录，默认第一张二维码就是之前保存的二维码。</string>
+    <string name="scan_for_reward">微信扫一扫下面的二维码进行打赏</string>
+</resources>

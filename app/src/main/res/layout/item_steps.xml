@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+    <TextView
+        android:id="@+id/step"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textStyle="italic"
+        android:textColor="@color/main_title_normal"
+        android:gravity="center"/>
+    <ImageView
+        android:id="@+id/step_image"
+        android:layout_width="200dp"
+        android:layout_height="113dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>

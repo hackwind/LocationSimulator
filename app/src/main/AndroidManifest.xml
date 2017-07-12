@@ -1,0 +1,94 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tonyhu.location">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Tencent GDT -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES"/>
+
+    <application
+        android:name=".TonyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".activity.WelcomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FirstActivityTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".activity.CuisineDetailActivity"
+            android:screenOrientation="portrait" android:theme="@style/SwipeBackTheme">
+        </activity>
+        <activity android:name=".activity.FoodSubTypeActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.MyFavoriteActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.FeedBackActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.RewardActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.qihoo.appstore.common.updatesdk.lib.UpdateTipDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <service
+            android:name="com.qihoo.appstore.updatelib.CheckUpdateService"
+            android:exported="false" />
+        <provider
+            android:name="com.qihoo.appstore.updatelib.UpdateProvider"
+            android:authorities="com.tonyhu.cookbook"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/update_apk_path" />
+        </provider>
+
+        <!-- 腾讯声明SDK所需要的组件 -->
+
+        <service
+            android:name="com.qq.e.comm.DownloadService"
+            android:exported="false" >
+        </service>
+        <!-- 请开发者注意字母的大小写，ADActivity，而不是AdActivity -->
+        <activity
+            android:name="com.qq.e.ads.ADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" >
+        </activity>
+
+        <!-- UMeng SDK -->
+        <meta-data android:value="59262e04c62dca73200015b7" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="qq" android:name="UMENG_CHANNEL"/>
+    </application>
+
+</manifest>

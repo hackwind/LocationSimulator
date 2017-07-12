@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_awesome_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" >
+        <LinearLayout
+            android:id="@+id/expanded_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:gravity="right|center_vertical"
+            android:background="@drawable/shape_round_corner_white"
+            android:stateListAnimator="@animator/touch_raise">
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:drawablePadding="15dp"
+                android:layout_marginLeft="5dp"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/ic_search_black_24dp"
+                android:textColor="#666666"
+                android:text="搜索菜谱"/>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/my_awesome_toolbar">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_container"></FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/left_drawer"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@android:color/white">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/drawer_tip"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="#DA7888"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:paddingBottom="5dp"-->
+                <!--android:paddingTop="5dp">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/drawer_tip_text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"/>-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_below="@id/drawer_tip"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/every_day"-->
+                    <!--android:textColor="#DA7888"-->
+                    <!--android:textStyle="italic"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:layout_marginBottom="5dp"-->
+                    <!--android:textSize="16sp"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/life_motto"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textColor="#DA7888"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:lineSpacingExtra="6dp"-->
+                    <!--android:textSize="16sp"/>-->
+            <!--</LinearLayout>-->
+            <ListView
+                android:id="@+id/left_drawer_bottom_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice"
+                android:divider="@android:color/black"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="50dp"
+                android:dividerHeight="1px"
+                android:elevation="13dp" />
+
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>

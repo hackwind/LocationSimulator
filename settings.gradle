@@ -1,0 +1,1 @@
+include ':app',":materiallibrary","pageslidinglibrary",":selectableroundedimageview",":swipebacklayout",":viewpagerindicator"
