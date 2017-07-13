@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.BaiduMapOptions;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.SupportMapFragment;
 import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerBottomHandler;
 import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerTopHandler;
 import com.blunderer.materialdesignlibrary.handlers.NavigationMainContentHandler;
@@ -59,6 +62,7 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
 
     @Override
     protected NavigationMainContentHandler getNavigationMainContentHandler() {
+
         return new NavigationMainContentHandler().setContent(MainFragment.newInstance());
     }
 
@@ -148,6 +152,15 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
 }

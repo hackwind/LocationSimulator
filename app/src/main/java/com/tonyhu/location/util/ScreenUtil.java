@@ -6,7 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 
-import com.tonyhu.location.TonyApplication;
+import com.tonyhu.location.TonyLocationApplication;
 
 public class ScreenUtil {
 
@@ -17,7 +17,7 @@ public class ScreenUtil {
      * @return px value.
      */
     public static int dip2px(float dpValue) {
-        final float scale = TonyApplication.getContext().getResources().getDisplayMetrics().density;
+        final float scale = TonyLocationApplication.getContext().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
@@ -28,7 +28,7 @@ public class ScreenUtil {
      * @return dip value.
      */
     public static int px2dip(float pxValue) {
-        final float scale = TonyApplication.getContext().getResources().getDisplayMetrics().density;
+        final float scale = TonyLocationApplication.getContext().getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
@@ -39,7 +39,7 @@ public class ScreenUtil {
      * @return px value.
      */
     public static int sp2px(float spValue) {
-        final float scale = TonyApplication.getContext().getResources().getDisplayMetrics().scaledDensity;
+        final float scale = TonyLocationApplication.getContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * scale + 0.5f);
     }
 
@@ -50,7 +50,7 @@ public class ScreenUtil {
      * @return sp value.
      */
     public static int px2sp(float pxValue) {
-        final float scale = TonyApplication.getContext().getResources().getDisplayMetrics().scaledDensity;
+        final float scale = TonyLocationApplication.getContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / scale + 0.5f);
     }
 
@@ -61,7 +61,7 @@ public class ScreenUtil {
      */
 
     public static int getScreenWidth() {
-        return TonyApplication.getContext().getResources().getDisplayMetrics().widthPixels;
+        return TonyLocationApplication.getContext().getResources().getDisplayMetrics().widthPixels;
     }
 
     /**
@@ -71,7 +71,7 @@ public class ScreenUtil {
      */
 
     public static int getScreenHeight() {
-        return TonyApplication.getContext().getResources().getDisplayMetrics().heightPixels;
+        return TonyLocationApplication.getContext().getResources().getDisplayMetrics().heightPixels;
     }
 
     /**
@@ -80,7 +80,7 @@ public class ScreenUtil {
      * @return
      */
     public static int getScreenDpi() {
-        return TonyApplication.getContext().getResources().getDisplayMetrics().densityDpi;
+        return TonyLocationApplication.getContext().getResources().getDisplayMetrics().densityDpi;
     }
 
     @SuppressLint("NewApi")
@@ -112,7 +112,7 @@ public class ScreenUtil {
             obj = c.newInstance();
             field = c.getField("status_bar_height");
             x = Integer.parseInt(field.get(obj).toString());
-            sbar = TonyApplication.getContext().getResources().getDimensionPixelSize(x);
+            sbar = TonyLocationApplication.getContext().getResources().getDimensionPixelSize(x);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,7 +136,7 @@ public class ScreenUtil {
             obj = c.newInstance();
             field = c.getField("status_bar_height");
             x = Integer.parseInt(field.get(obj).toString());
-            sbar = TonyApplication.getContext().getResources().getDimensionPixelSize(x);
+            sbar = TonyLocationApplication.getContext().getResources().getDimensionPixelSize(x);
 
         } catch (Exception e1) {
             e1.printStackTrace();

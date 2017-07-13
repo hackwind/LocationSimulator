@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.tonyhu.cookbook.R;
+import com.tonyhu.location.R;
 import com.tonyhu.location.activity.MainActivity;
 
 public class WelcomeFragment extends Fragment {

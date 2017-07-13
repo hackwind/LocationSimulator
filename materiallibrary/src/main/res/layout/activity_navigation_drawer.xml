@@ -28,7 +28,7 @@
                 android:gravity="center_vertical"
                 android:drawableLeft="@drawable/ic_search_black_24dp"
                 android:textColor="#666666"
-                android:text="搜索菜谱"/>
+                android:text="搜索地名"/>
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 

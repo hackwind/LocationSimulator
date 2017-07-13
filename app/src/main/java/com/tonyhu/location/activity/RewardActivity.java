@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tonyhu.cookbook.R;
+import com.tonyhu.location.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

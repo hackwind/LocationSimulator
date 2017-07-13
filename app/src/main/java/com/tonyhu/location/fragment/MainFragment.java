@@ -1,5 +1,6 @@
 package com.tonyhu.location.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -9,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tonyhu.cookbook.R;
+import com.baidu.mapapi.map.BaiduMapOptions;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.SupportMapFragment;
+import com.tonyhu.location.R;
 import com.tonyhu.location.activity.MainActivity;
 
 public class MainFragment extends Fragment implements View.OnClickListener{
@@ -44,13 +48,14 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initView(View view) {
+
         tabs = new String[]{
-                getResources().getString(R.string.tab_title_cuisine),
-                getResources().getString(R.string.tab_title_foodtype)
+                getResources().getString(R.string.tab_title_first),
+                getResources().getString(R.string.tab_title_second)
         };
         cls = new Class[]{
-                CuisineFragment.class,
-                FoodTypeFragment.class
+                MapFragment.class,
+                MultipointFragment.class
         };
 
 
@@ -118,5 +123,40 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         image2.setBackgroundResource(R.drawable.main_tab_type_normal);
         button3.setTextColor(getResources().getColor(R.color.main_title_selected));
         image3.setBackgroundResource(R.drawable.main_tab_nutrition_pressed);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }

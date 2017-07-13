@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tonyhu.cookbook.R;
+import com.tonyhu.location.R;
 import com.tonyhu.location.util.ScreenUtil;
 import com.tonyhu.location.widget.ScrollTextView;
 

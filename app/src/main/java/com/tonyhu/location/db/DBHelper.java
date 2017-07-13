@@ -9,7 +9,7 @@ import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.tonyhu.location.R;
-import com.tonyhu.location.TonyApplication;
+import com.tonyhu.location.TonyLocationApplication;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -109,7 +109,7 @@ public class DBHelper  {
     public static synchronized DBHelper getHelper() {
         synchronized (DBHelper.class) {
             if(mInstance == null) {
-                mInstance = new DBHelper(TonyApplication.getContext());
+                mInstance = new DBHelper(TonyLocationApplication.getContext());
             }
             return mInstance;
         }

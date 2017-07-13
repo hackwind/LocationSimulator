@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name"></string>
-    <string name="app_nick">一本口袋式的菜谱</string>
+    <string name="app_name">模拟定位</string>
+    <string name="app_nick">之神之穿越</string>
     <string name="user_heart">用心烹饪</string>
     <string name="worth_wait">值得等待</string>
     <string name="drawer_favorite">我的收藏</string>
@@ -12,9 +12,9 @@
     <string name="welcome_enter">立&#160;即&#160;体&#160;验</string>
     <string name="press_back_again">再按一次返回键退出</string>
 
-    <string name="tab_title_cuisine">菜系</string>
-    <string name="tab_title_foodtype">分类</string>
-    <string name="tab_title_my">我的</string>
+    <string name="tab_title_first">穿越</string>
+    <string name="tab_title_second">漫游</string>
+    <string name="tab_title_third">我的</string>
 
     <string name="detail_material">食材:</string>
     <string name="detail_steps">步骤:</string>
@@ -23,7 +23,7 @@
     <string name="remove_favorite">取消收藏</string>
 
     <string name="menu_search">搜索</string>
-    <string name="search_hint">搜索菜谱</string>
+    <string name="search_hint">搜索地名</string>
 
     <string name="cancel">取消</string>
     <string name="no_result">没有找到相关的菜谱哦</string>

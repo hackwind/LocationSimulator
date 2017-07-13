@@ -24,7 +24,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tonyhu.cookbook.R;
+import com.tonyhu.location.R;
+import com.tonyhu.location.db.Favorite;
 import com.tonyhu.location.util.ScreenUtil;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class SearchActivity extends BaseActivity {
     private final static int PADDING_OUTSIDE = 20;
     private final static int PADDING_INSIDE = 10;
     private RecyclerView.Adapter adapter;
-    private List<Cuisine> cuisineItems;
+    private List<Favorite> cuisineItems;
     private EditText editText;
     private RecyclerView recyclerView;
     private LinearLayout noResult;
@@ -145,19 +146,19 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void searchData(String keyword) {
-        CuisineDao dao = new CuisineDao();
-        cuisineItems = dao.search(keyword);
-
-
-        adapter.notifyDataSetChanged();
-        if(cuisineItems == null || cuisineItems.size() == 0) {
-            recyclerView.setVisibility(View.GONE);
-            noResult.setVisibility(View.VISIBLE);
-            return;
-        } else {
-            noResult.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
+//        Favorite dao = new Favorite();
+//        cuisineItems = dao.search(keyword);
+//
+//
+//        adapter.notifyDataSetChanged();
+//        if(cuisineItems == null || cuisineItems.size() == 0) {
+//            recyclerView.setVisibility(View.GONE);
+//            noResult.setVisibility(View.VISIBLE);
+//            return;
+//        } else {
+//            noResult.setVisibility(View.GONE);
+//            recyclerView.setVisibility(View.VISIBLE);
+//        }
     }
 
     class Holder extends RecyclerView.ViewHolder {
@@ -171,28 +172,28 @@ public class SearchActivity extends BaseActivity {
         }
 
         public void bind(int position) {
-            final Cuisine cuisine = cuisineItems.get(position);
-            String cover = cuisine.getBannerImage();
-            if (cover == null) {
-                // set default image
-                subImage.setImageResource(R.drawable.default_image);
-            } else {
-                Bitmap bitmap = ImageUtil.getAssetsBitmap(cuisine.getName(), cover);
-                if (bitmap != null) {
-                    subImage.setImageBitmap(bitmap);
-                }
-            }
-            subTitle.setText(cuisine.getName());
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
-                public void onClick(View v) {
-                    Intent intent = new Intent(SearchActivity.this, CuisineDetailActivity.class);
-                    intent.putExtra("cuisine_id", cuisine.getId());
-                    intent.putExtra("cuisine_name", cuisine.getName());
-                    startActivity(intent);
-                }
-            });
+//            final Cuisine cuisine = cuisineItems.get(position);
+//            String cover = cuisine.getBannerImage();
+//            if (cover == null) {
+//                // set default image
+//                subImage.setImageResource(R.drawable.default_image);
+//            } else {
+//                Bitmap bitmap = ImageUtil.getAssetsBitmap(cuisine.getName(), cover);
+//                if (bitmap != null) {
+//                    subImage.setImageBitmap(bitmap);
+//                }
+//            }
+//            subTitle.setText(cuisine.getName());
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(SearchActivity.this, CuisineDetailActivity.class);
+//                    intent.putExtra("cuisine_id", cuisine.getId());
+//                    intent.putExtra("cuisine_name", cuisine.getName());
+//                    startActivity(intent);
+//                }
+//            });
 
         }
 

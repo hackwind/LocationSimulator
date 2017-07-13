@@ -6,14 +6,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <!-- Tencent GDT -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES"/>
 
     <application
-        android:name=".TonyApplication"
+        android:name=".TonyLocationApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -32,12 +35,6 @@
         <activity android:name=".activity.MainActivity"
             android:screenOrientation="portrait">
 
-        </activity>
-        <activity android:name=".activity.CuisineDetailActivity"
-            android:screenOrientation="portrait" android:theme="@style/SwipeBackTheme">
-        </activity>
-        <activity android:name=".activity.FoodSubTypeActivity"
-            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.MyFavoriteActivity"
             android:screenOrientation="portrait">
@@ -89,6 +86,11 @@
         <!-- UMeng SDK -->
         <meta-data android:value="59262e04c62dca73200015b7" android:name="UMENG_APPKEY"/>
         <meta-data android:value="qq" android:name="UMENG_CHANNEL"/>
+
+        <!-- baidu map -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="Plr5o7kPnXnCgDvhg2fux2UXGFktLUgT" />
     </application>
 
 </manifest>

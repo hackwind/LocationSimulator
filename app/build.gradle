@@ -11,10 +11,24 @@ android {
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword "location"
+            keyAlias "location"
+            keyPassword "location"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -28,7 +42,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.0'
     testCompile 'junit:junit:4.12'
     compile project(':materiallibrary')
-    compile project(':pageslidinglibrary')
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     compile files('libs/ormlite-android-5.0.jar')
     compile files('libs/ormlite-core-5.0.jar')
@@ -39,4 +52,5 @@ dependencies {
     compile files('libs/utdid4all-1.0.4.jar')
     compile files('libs/GDTUnionSDK.4.9.543.min.jar')
     compile 'com.android.support:recyclerview-v7:25.3.0'
+    compile files('libs/BaiduLBS_Android.jar')
 }

@@ -44,13 +44,13 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (mDefaultHandler != null) {
             mDefaultHandler.uncaughtException(thread, ex);
         }else {
-            Intent intent = new Intent(TonyApplication.getContext(), MainActivity.class);
+            Intent intent = new Intent(TonyLocationApplication.getContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent restartIntent = PendingIntent.getActivity(
-                    TonyApplication.getContext(), 0, intent,
+                    TonyLocationApplication.getContext(), 0, intent,
                     PendingIntent.FLAG_ONE_SHOT);
             //退出程序
-            AlarmManager mgr = (AlarmManager) TonyApplication.getContext().getSystemService(Context.ALARM_SERVICE);
+            AlarmManager mgr = (AlarmManager) TonyLocationApplication.getContext().getSystemService(Context.ALARM_SERVICE);
             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
                     restartIntent); // 1秒钟后重启应用
             android.os.Process.killProcess(android.os.Process.myPid());
