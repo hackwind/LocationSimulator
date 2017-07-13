@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.TextureMapView;
 import com.tonyhu.location.R;
 
 
 public class MapFragment extends Fragment {
     private View rootView;
-    private MapView mapView;
+    private TextureMapView mapView;
 
     public MapFragment() {
     }
@@ -28,7 +28,7 @@ public class MapFragment extends Fragment {
     }
 
     private void initView(View view) {
-        mapView = (MapView) view.findViewById(R.id.baidumap);
+        mapView = (TextureMapView) view.findViewById(R.id.baidumap);
     }
 
     @Override
