@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.CoordinateConverter;
 import com.tonyhu.location.R;
 import com.tonyhu.location.TonyLocationApplication;
 
@@ -94,7 +95,7 @@ public class MapFragment extends Fragment implements View.OnClickListener{
         public void run() {
             while (true) {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
 
                     if (hasAddTestProvider() == false) {
                         continue;
@@ -213,5 +214,13 @@ public class MapFragment extends Fragment implements View.OnClickListener{
             e.printStackTrace();
         }
         return add;
+    }
+
+    private void convertCoord(LatLng sourceLatLng) {
+        CoordinateConverter converter  = new CoordinateConverter();
+        converter.from(CoordinateConverter.CoordType.COMMON);
+        // sourceLatLng待转换坐标
+        converter.coord(sourceLatLng);
+        LatLng desLatLng = converter.convert();
     }
 }
