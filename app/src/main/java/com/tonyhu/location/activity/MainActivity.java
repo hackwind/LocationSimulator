@@ -1,9 +1,13 @@
 package com.tonyhu.location.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +27,39 @@ import com.tonyhu.location.R;
 import com.tonyhu.location.fragment.MainFragment;
 import com.umeng.analytics.MobclickAgent;
 
+import static com.tonyhu.location.TonyLocationApplication.getContext;
+
 
 public class MainActivity extends com.blunderer.materialdesignlibrary.activities.NavigationDrawerActivity {
+    private static final int REQUEST_PERMISSION_LOCATION = 255; // int should be between 0 and 255
     private long lastOnBackPressed = 0;
     private int backPressCount = 0;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initStatusBar(R.color.color_primary);
+        checkPermission();
         //调用360检查更新sdk，后面的颜色是升级对话框状态栏颜色
         UpdateHelper.getInstance().init(getApplicationContext(), Color.parseColor("#0A93DB"));
+    }
+
+    private void checkPermission() {
+        if(Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION_LOCATION);
+            } else {
+                // We have already permission to use the location
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // We now have permission to use the location
+            }
+        }
     }
 
     @Override
