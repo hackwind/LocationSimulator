@@ -1,42 +1,54 @@
 package com.tonyhu.location.fragment;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.location.Address;
+import android.content.Intent;
 import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.CoordinateConverter;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.tonyhu.location.R;
-import com.tonyhu.location.TonyLocationApplication;
+import com.tonyhu.location.activity.MainActivity;
+import com.tonyhu.location.util.JZLocationConverter;
 
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 
-public class MapFragment extends Fragment implements View.OnClickListener{
+public class MapFragment extends Fragment implements View.OnClickListener,BaiduMap.OnMapStatusChangeListener,OnGetGeoCoderResultListener{
     private View rootView;
     private TextureMapView mapView;
-    private Button btnAddFavorite;
-    private Button btnPassThrough;
+    private TextView btnAddFavorite;
+    private TextView btnPassThrough;
     private TextView txtPosition;
     private LocationManager locationManager;
+    private GeoCoder geoCoder;
+    private Vibrator vibrator;
+    private boolean isFirstVibrate = true;
+    private String currentAddress;
 
     public MapFragment() {
 
@@ -48,17 +60,19 @@ public class MapFragment extends Fragment implements View.OnClickListener{
         if(rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_map, null);
             initView(rootView);
+            getLocationAddress(mapView.getMap().getMapStatus().target);
         }
         return rootView;
     }
 
     private void initView(View view) {
         mapView = (TextureMapView) view.findViewById(R.id.baidumap);
-        btnAddFavorite = (Button)view.findViewById(R.id.btn_add_favorite);
-        btnPassThrough = (Button)view.findViewById(R.id.btn_pass);
+        btnAddFavorite = (TextView)view.findViewById(R.id.btn_add_favorite);
+        btnPassThrough = (TextView)view.findViewById(R.id.btn_pass);
         txtPosition = (TextView)view.findViewById(R.id.text_position);
         btnAddFavorite.setOnClickListener(this);
         btnPassThrough.setOnClickListener(this);
+        mapView.getMap().setOnMapStatusChangeListener(this);
     }
 
 
@@ -89,13 +103,38 @@ public class MapFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    @Override
+    public void onMapStatusChangeStart(MapStatus mapStatus) {
+    }
+
+    @Override
+    public void onMapStatusChange(MapStatus mapStatus) {
+    }
+
+    @Override
+    public void onMapStatusChangeFinish(MapStatus mapStatus) {
+        getLocationAddress(mapView.getMap().getMapStatus().target);
+    }
+
+    @Override
+    public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+    }
+
+    @Override
+    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+        if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+            return;
+        }
+        currentAddress = reverseGeoCodeResult.getAddress();
+        txtPosition.setText(currentAddress);
+    }
+
     private class RunnableMockLocation implements Runnable {
 
         @Override
         public void run() {
             while (true) {
                 try {
-                    Thread.sleep(2000);
 
                     if (hasAddTestProvider() == false) {
                         continue;
@@ -106,8 +145,10 @@ public class MapFragment extends Fragment implements View.OnClickListener{
                         String providerStr = LocationManager.GPS_PROVIDER;
                         Location mockLocation = new Location(providerStr);
                         LatLng latLng = mapView.getMap().getMapStatus().target;
-                        mockLocation.setLatitude(latLng.latitude);   // 维度（度）
-                        mockLocation.setLongitude(latLng.longitude);  // 经度（度）
+                        JZLocationConverter.LatLng srcLatLng = new JZLocationConverter.LatLng(latLng.latitude,latLng.longitude);
+                        JZLocationConverter.LatLng destLatLng = JZLocationConverter.bd09ToWgs84(srcLatLng);
+                        mockLocation.setLatitude(destLatLng.latitude);   // 维度（度）
+                        mockLocation.setLongitude(destLatLng.longitude);  // 经度（度）
                         mockLocation.setAltitude(30);    // 高程（米）
                         mockLocation.setBearing(180);   // 方向（度）
                         mockLocation.setSpeed(10);    //速度（米/秒）
@@ -117,10 +158,16 @@ public class MapFragment extends Fragment implements View.OnClickListener{
                             mockLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
                         }
                         locationManager.setTestProviderLocation(providerStr, mockLocation);
+                        if(isFirstVibrate) {
+                            vibrate();
+                            isFirstVibrate = false;
+                            showNotification();
+                        }
                     } catch (Exception e) {
                         // 防止用户在软件运行过程中关闭模拟位置或选择其他应用
                         stopMockLocation();
                     }
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -149,6 +196,9 @@ public class MapFragment extends Fragment implements View.OnClickListener{
     private boolean hasAddTestProvider() {
         //具体参考：http://blog.csdn.net/doris_d/article/details/51384285
         //Android 6.0 以下：使用Settings.Secure.ALLOW_MOCK_LOCATION判断。
+        if(getActivity() == null) {
+            return false;
+        }
         boolean canMockPosition = (Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, 0) != 0)
                 || Build.VERSION.SDK_INT > 22;
         if (canMockPosition && hasAddTestProvider == false) {
@@ -195,32 +245,38 @@ public class MapFragment extends Fragment implements View.OnClickListener{
      * @param point
      * @return
      */
-    private String getLocationAddress(LatLng point) {
-        String add = "";
-        Geocoder geoCoder = new Geocoder(TonyLocationApplication.getContext(), Locale.getDefault());
-        try {
-            List<Address> addresses = geoCoder.getFromLocation(
-                    point.latitudeE6 / 1E6, point.longitudeE6 / 1E6,
-                    1);
-            Address address = addresses.get(0);
-            int maxLine = address.getMaxAddressLineIndex();
-            if (maxLine >= 2) {
-                add = address.getAddressLine(1) + address.getAddressLine(2);
-            } else {
-                add = address.getAddressLine(1);
-            }
-        } catch (IOException e) {
-            add = "";
-            e.printStackTrace();
+    private void getLocationAddress(LatLng point) {
+        Log.d("hjs","lat,lng:" + point.latitude + "," + point.longitude);
+
+        if(geoCoder == null) {
+            geoCoder = GeoCoder.newInstance();
+            geoCoder.setOnGetGeoCodeResultListener(this);
         }
-        return add;
+        geoCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                .location(point));
     }
 
-    private void convertCoord(LatLng sourceLatLng) {
-        CoordinateConverter converter  = new CoordinateConverter();
-        converter.from(CoordinateConverter.CoordType.COMMON);
-        // sourceLatLng待转换坐标
-        converter.coord(sourceLatLng);
-        LatLng desLatLng = converter.convert();
+    private void vibrate() {
+        if(vibrator == null){
+            vibrator = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        }
+        vibrator.vibrate(1000);
+    }
+
+    private void showNotification() {
+        NotificationManager notificationManager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(getContext())
+                .setTicker("穿越成功")
+                .setContentTitle("大神啊")
+                .setContentText("您已成功穿越到：" + (currentAddress != null ? currentAddress : ""))
+                .setSmallIcon(R.mipmap.ic_launcher);
+
+        builder.setWhen(System.currentTimeMillis());  //设置通知显示的时间
+
+        //获得一个PendingIntent对象，用来设置用户点击通知时发生的跳转
+        Intent newintent = new Intent(getActivity(),MainActivity.class);
+        PendingIntent pintent = PendingIntent.getActivity(getContext(), 0, newintent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pintent);
+        notificationManager.notify(1,builder.build());
     }
 }

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:text="这里是:"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_gravity="left"
             android:gravity="left"
             />
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:background="#37B158"
+            android:textSize="15sp"
             android:textColor="@android:color/white"
             />
 
@@ -35,24 +35,33 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="5dp">
-            <Button
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+            <TextView
                 android:id="@+id/btn_add_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/color_primary"
-                android:textSize="20sp"
-                android:layout_marginRight="2dp"
+                android:background="@drawable/selector_infowindow_btn"
+                android:textSize="18sp"
+                android:layout_marginRight="10dp"
                 android:text="收藏"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 />
-            <Button
+            <TextView
                 android:id="@+id/btn_pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#BABAFF"
-                android:layout_marginLeft="2dp"
-                android:textSize="20sp"
+                android:background="@drawable/selector_infowindow_btn"
+                android:layout_marginLeft="10dp"
+                android:textSize="18sp"
                 android:text="穿越到此"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 />
         </LinearLayout>
 

@@ -37,6 +37,10 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isTaskRoot()) {
+            finish();
+            return;
+        }
         initStatusBar(R.color.color_primary);
         checkPermission();
         //调用360检查更新sdk，后面的颜色是升级对话框状态栏颜色

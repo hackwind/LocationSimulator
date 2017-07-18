@@ -5,26 +5,20 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_awesome_toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:visibility="gone"/>
     <com.baidu.mapapi.map.TextureMapView
         android:id="@+id/baidumap"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
-    <!-- 辅助居中-->
+    <!-- 用来辅助浮层居中的中心点-->
     <ImageView
         android:id="@+id/ivCentern"
-        android:layout_width="1dp"
+        android:layout_width="1px"
         android:layout_height="1px"
         android:layout_centerInParent="true" />
     <include layout="@layout/layout_infowindow"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ivCentern"
+        android:layout_marginBottom="4dp"
         android:layout_centerHorizontal="true"/>
 </RelativeLayout>
