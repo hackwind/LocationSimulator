@@ -51,7 +51,7 @@ public class SettingUpDialog extends DialogFragment {
                 break;
             case 1:
                 result1.setText(R.string.fast_setting);
-                result1.setTextColor(Color.rgb(255,0,0));
+                result1.setTextColor(Color.RED);
 
                 result2.setText(R.string.setting_right);
                 result2.setTextColor(Color.rgb(153,217,234));
@@ -61,16 +61,17 @@ public class SettingUpDialog extends DialogFragment {
                 result1.setTextColor(Color.rgb(153,217,234));
 
                 result2.setText(R.string.fast_setting);
-                result2.setTextColor(Color.rgb(255,0,0));
+                result2.setTextColor(Color.RED);
                 break;
             case 3:
                 result1.setText(R.string.fast_setting);
-                result1.setTextColor(Color.rgb(255,0,0));
+                result1.setTextColor(Color.RED);
 
                 result2.setText(R.string.fast_setting);
-                result2.setTextColor(Color.rgb(255,0,0));
+                result2.setTextColor(Color.RED);
                 break;
         }
+
         builder.setView(view);
         return builder.create();
     }

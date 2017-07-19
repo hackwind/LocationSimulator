@@ -4,48 +4,64 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
+    android:background="@android:color/white"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/color_primary"
+        android:text="@string/dialog_title"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="2"
+        android:textColor="@color/hint_color"
         android:text="@string/setting_tip"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/main_title_normal"/>
+        android:background="@color/main_title_normal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
     <LinearLayout
         android:id="@+id/layout_setting1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/detail_title"
             android:text="@string/open_mock_app"/>
         <TextView
             android:id="@+id/result_setting1"
             android:layout_width="wrap_content"
+            android:textColor="@color/detail_title"
             android:layout_height="wrap_content" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/main_title_normal"/>
+        android:background="@color/main_title_normal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
     <LinearLayout
         android:id="@+id/layout_setting2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_height="60dp"
+        android:gravity="center_vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/detail_title"
             android:text="@string/close_postion_service"/>
         <TextView
             android:id="@+id/result_setting2"
             android:layout_width="wrap_content"
+            android:textColor="@color/detail_title"
             android:layout_height="wrap_content" />
     </LinearLayout>
     <View
@@ -55,7 +71,7 @@
     <TextView
         android:id="@+id/btn_i_known"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:background="@color/color_primary"
         android:gravity="center"
         android:layout_margin="5dp"
