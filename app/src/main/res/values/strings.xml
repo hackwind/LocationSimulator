@@ -33,7 +33,7 @@
     <string name="reward">赏</string>
     <string name="reward_tip">打赏一下胡爸</string>
     <string name="thanks">感谢</string>
-    <string name="thanks_content">非常感谢您使用《胡爸菜谱》app,《胡爸菜谱》是由胡爸利用业余时间精心整理和开发的，开发这个app是为了能做成一份"口袋式"的菜谱，方便自己家庭和其他更多的家庭。本菜谱的资源均收集来自网络，如果有侵犯到您的权利，可以反馈给我，我将重新整理。胡爸只是挑选有代表性的做法，还有很多做法因各种原因，没有一一收纳进来。开发期间非常感谢我的爸爸妈妈和老婆，是他们耐心地在照顾的两个小宝宝，胡爸才能安心地投入这个app的开发。当然也感谢我的两个小宝宝，没有过多地过来捣乱。</string>
+    <string name="thanks_content"></string>
     <string name="scan">扫一扫下面的二维码关注公众号</string>
     <string name="search_gongzhonghao">或者微信搜索公众号:"胡爸菜谱"，即可在公众号里留言了</string>
     <string name="only_one_phone"><u>只有一个手机，无法扫描，怎么办？点击我试试</u></string>
@@ -41,4 +41,11 @@
     <string name="after_save_qrcode">点击上面的按钮，将二维码保存到手机相册，然后打开微信扫一扫，如下图</string>
     <string name="click_right_top">点击右上角按钮，弹出下图所示，从底部选择“从相册选择二维码”，弹出相册目录，默认第一张二维码就是之前保存的二维码。</string>
     <string name="scan_for_reward">微信扫一扫下面的二维码进行打赏</string>
+
+    <string name="setting_tip">检测到您的手机设置不正确，暂时无法开启虚拟定位，请按下列提示设置后，再开启虚拟定位！</string>
+    <string name="setting_alert">跳过并继续穿越\n(可能会穿越失败或其他异常，谨慎跳过)</string>
+    <string name="close_postion_service">②关闭"位置服务"</string>
+    <string name="open_mock_app">①开启"允许模拟位置"或者“选择模拟位置信息应用”时选中本软件</string>
+    <string name="fast_setting">×(点击我进行设置)</string>
+    <string name="setting_right">√(此处设置正确)</string>
 </resources>

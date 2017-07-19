@@ -11,6 +11,8 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -38,17 +40,29 @@ import com.tonyhu.location.util.JZLocationConverter;
 import java.util.Date;
 
 
-public class MapFragment extends Fragment implements View.OnClickListener,BaiduMap.OnMapStatusChangeListener,OnGetGeoCoderResultListener{
+public class MapFragment extends Fragment implements View.OnClickListener,BaiduMap.OnMapStatusChangeListener,
+        OnGetGeoCoderResultListener,BaiduMap.OnMapLoadedCallback {
     private View rootView;
     private TextureMapView mapView;
     private TextView btnAddFavorite;
     private TextView btnPassThrough;
+    private TextView btnCancelPass;
     private TextView txtPosition;
     private LocationManager locationManager;
     private GeoCoder geoCoder;
     private Vibrator vibrator;
     private boolean isFirstVibrate = true;
+    private boolean stop = false;
     private String currentAddress;
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            btnPassThrough.setVisibility(View.GONE);
+            btnAddFavorite.setVisibility(View.GONE);
+            btnCancelPass.setVisibility(View.VISIBLE);
+        }
+    };
 
     public MapFragment() {
 
@@ -60,7 +74,6 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         if(rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_map, null);
             initView(rootView);
-            getLocationAddress(mapView.getMap().getMapStatus().target);
         }
         return rootView;
     }
@@ -69,10 +82,13 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         mapView = (TextureMapView) view.findViewById(R.id.baidumap);
         btnAddFavorite = (TextView)view.findViewById(R.id.btn_add_favorite);
         btnPassThrough = (TextView)view.findViewById(R.id.btn_pass);
+        btnCancelPass = (TextView)view.findViewById(R.id.btn_cancel_pass);
         txtPosition = (TextView)view.findViewById(R.id.text_position);
         btnAddFavorite.setOnClickListener(this);
         btnPassThrough.setOnClickListener(this);
+        btnCancelPass.setOnClickListener(this);
         mapView.getMap().setOnMapStatusChangeListener(this);
+        mapView.getMap().setOnMapLoadedCallback(this);
     }
 
 
@@ -98,7 +114,18 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
 
                 break;
             case R.id.btn_pass:
+                if(!canMockPosition()) {
+                    showAlertDialog(1);
+                    return;
+                }
+                stop = false;
                 new Thread(new RunnableMockLocation()).start();
+                break;
+            case R.id.btn_cancel_pass:
+                btnPassThrough.setVisibility(View.VISIBLE);
+                btnAddFavorite.setVisibility(View.VISIBLE);
+                btnCancelPass.setVisibility(View.GONE);
+                cancelMockPosition();
                 break;
         }
     }
@@ -129,14 +156,20 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         txtPosition.setText(currentAddress);
     }
 
+    @Override
+    public void onMapLoaded() {
+        Log.d("hjs","onMapLoaded");
+        getLocationAddress(mapView.getMap().getMapStatus().target);
+    }
+
     private class RunnableMockLocation implements Runnable {
 
         @Override
         public void run() {
-            while (true) {
+            while (!stop) {
                 try {
 
-                    if (hasAddTestProvider() == false) {
+                    if (canMockPosition() == false) {
                         continue;
                     }
 
@@ -159,9 +192,11 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
                         }
                         locationManager.setTestProviderLocation(providerStr, mockLocation);
                         if(isFirstVibrate) {
-                            vibrate();
                             isFirstVibrate = false;
+                            vibrate();
                             showNotification();
+                            handler.sendEmptyMessage(0);
+
                         }
                     } catch (Exception e) {
                         // 防止用户在软件运行过程中关闭模拟位置或选择其他应用
@@ -193,7 +228,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         }
     }
     boolean hasAddTestProvider = false;
-    private boolean hasAddTestProvider() {
+    private boolean canMockPosition() {
         //具体参考：http://blog.csdn.net/doris_d/article/details/51384285
         //Android 6.0 以下：使用Settings.Secure.ALLOW_MOCK_LOCATION判断。
         if(getActivity() == null) {
@@ -239,6 +274,17 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         return canMockPosition;
     }
 
+    private void cancelMockPosition(){
+        stop = true;
+        try {
+            locationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        hasAddTestProvider = false;
+        isFirstVibrate = true;
+    }
+
     /**
      * 通过经纬度获取地址
      *
@@ -278,5 +324,13 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         PendingIntent pintent = PendingIntent.getActivity(getContext(), 0, newintent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pintent);
         notificationManager.notify(1,builder.build());
+    }
+
+    private void showAlertDialog(int type) {
+        SettingUpDialog dialog = new SettingUpDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type",type);
+        dialog.setArguments(bundle);
+        dialog.show(getFragmentManager(),"dialog");
     }
 }

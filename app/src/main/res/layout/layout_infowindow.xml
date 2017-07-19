@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:textSize="15sp"
+            android:text="..."
             android:textColor="@android:color/white"
             />
 
@@ -49,6 +50,7 @@
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:visibility="visible"
                 />
             <TextView
                 android:id="@+id/btn_pass"
@@ -62,6 +64,21 @@
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:visibility="visible"
+                />
+            <TextView
+                android:id="@+id/btn_cancel_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_infowindow_btn"
+                android:layout_marginLeft="10dp"
+                android:textSize="18sp"
+                android:text="取消穿越"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:visibility="gone"
                 />
         </LinearLayout>
 
