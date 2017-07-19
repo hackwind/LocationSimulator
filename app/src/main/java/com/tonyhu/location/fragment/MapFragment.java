@@ -42,6 +42,7 @@ import java.util.Date;
 
 public class MapFragment extends Fragment implements View.OnClickListener,BaiduMap.OnMapStatusChangeListener,
         OnGetGeoCoderResultListener,BaiduMap.OnMapLoadedCallback {
+    private static final int NOTIFICATION_ID = 1;
     private View rootView;
     private TextureMapView mapView;
     private TextView btnAddFavorite;
@@ -281,6 +282,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         } catch(Exception e) {
             e.printStackTrace();
         }
+        cancelNotification();
         hasAddTestProvider = false;
         isFirstVibrate = true;
     }
@@ -323,7 +325,12 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         Intent newintent = new Intent(getActivity(),MainActivity.class);
         PendingIntent pintent = PendingIntent.getActivity(getContext(), 0, newintent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pintent);
-        notificationManager.notify(1,builder.build());
+        notificationManager.notify(NOTIFICATION_ID,builder.build());
+    }
+
+    private void cancelNotification() {
+        NotificationManager notificationManager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(NOTIFICATION_ID);
     }
 
     private void showAlertDialog(int type) {
