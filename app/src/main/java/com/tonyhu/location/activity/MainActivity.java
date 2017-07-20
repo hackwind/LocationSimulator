@@ -32,6 +32,7 @@ import static com.tonyhu.location.TonyLocationApplication.getContext;
 
 public class MainActivity extends com.blunderer.materialdesignlibrary.activities.NavigationDrawerActivity {
     private static final int REQUEST_PERMISSION_LOCATION = 255; // int should be between 0 and 255
+    private static final int REQUEST_CODE_SEARCH = 10001;
     private long lastOnBackPressed = 0;
     private int backPressCount = 0;
 
@@ -71,7 +72,12 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
         return new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                startActivity(SearchActivity.class);
+                switch (view.getId()) {
+                    case R.id.search_place:
+                        Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+                        startActivityForResult(intent,REQUEST_CODE_SEARCH);
+                        break;
+                }
             }
         };
     }
@@ -175,7 +181,6 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
         }
     }
 
-
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
@@ -192,6 +197,20 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
     @Override
     protected void onRestart() {
         super.onRestart();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode == REQUEST_CODE_SEARCH && resultCode == RESULT_OK) {
+            if(data != null) {
+                double lat = data.getDoubleExtra("lat",0);
+                double lng = data.getDoubleExtra("lng",0);
+                String address = data.getStringExtra("address");
+                String name = data.getStringExtra("name");
+
+            }
+        }
     }
 
 }

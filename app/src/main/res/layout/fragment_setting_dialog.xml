@@ -8,16 +8,17 @@
     android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="40dp"
         android:background="@color/color_primary"
         android:text="@string/dialog_title"
+        android:textSize="20sp"
         android:textColor="@android:color/white"
         android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="2"
-        android:textColor="@color/hint_color"
+        android:textColor="@color/detail_title"
         android:text="@string/setting_tip"/>
     <View
         android:layout_width="match_parent"
@@ -32,15 +33,13 @@
         android:gravity="center_vertical"
         >
         <TextView
+            android:id="@+id/result_setting1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/detail_title"
-            android:text="@string/open_mock_app"/>
-        <TextView
-            android:id="@+id/result_setting1"
-            android:layout_width="wrap_content"
-            android:textColor="@color/detail_title"
-            android:layout_height="wrap_content" />
+            android:layout_marginLeft="2dp"
+            android:text="@string/open_mock_app_high"/>
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -54,15 +53,13 @@
         android:layout_height="60dp"
         android:gravity="center_vertical">
         <TextView
+            android:id="@+id/result_setting2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/detail_title"
+            android:layout_marginLeft="2dp"
             android:text="@string/close_postion_service"/>
-        <TextView
-            android:id="@+id/result_setting2"
-            android:layout_width="wrap_content"
-            android:textColor="@color/detail_title"
-            android:layout_height="wrap_content" />
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -75,5 +72,7 @@
         android:background="@color/color_primary"
         android:gravity="center"
         android:layout_margin="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:text="@string/setting_alert"/>
 </LinearLayout>

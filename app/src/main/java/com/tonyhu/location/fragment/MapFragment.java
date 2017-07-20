@@ -115,8 +115,11 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
 
                 break;
             case R.id.btn_pass:
-                if(!canMockPosition()) {
-                    showAlertDialog(1);
+                boolean canMock = canMockPosition();
+                boolean isPosEnabled = isPositionServiceEnable();
+                int type = getWrongType(canMock,isPosEnabled);
+                if(type != 0) {
+                    showAlertDialog(type);
                     return;
                 }
                 stop = false;
@@ -128,6 +131,18 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
                 btnCancelPass.setVisibility(View.GONE);
                 cancelMockPosition();
                 break;
+        }
+    }
+
+    private int getWrongType(boolean canMock, boolean isPosEnabled) {
+        if(canMock && !isPosEnabled) {
+            return 0;
+        } else if(!canMock && !isPosEnabled) {
+            return 1;
+        } else if(canMock && isPosEnabled) {
+            return 2;
+        } else {
+            return 3;
         }
     }
 
@@ -315,7 +330,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         NotificationManager notificationManager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(getContext())
                 .setTicker("穿越成功")
-                .setContentTitle("大神啊")
+                .setContentTitle("恭喜，大神啊")
                 .setContentText("您已成功穿越到：" + (currentAddress != null ? currentAddress : ""))
                 .setSmallIcon(R.mipmap.ic_launcher);
 
@@ -339,5 +354,12 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         bundle.putInt("type",type);
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(),"dialog");
+    }
+
+    private boolean isPositionServiceEnable() {
+//        LocationManager locationManager =
+//                ((LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE));
+//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        return false;
     }
 }

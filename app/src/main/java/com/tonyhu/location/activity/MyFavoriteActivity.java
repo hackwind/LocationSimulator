@@ -1,10 +1,6 @@
 package com.tonyhu.location.activity;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
@@ -62,7 +58,7 @@ public class MyFavoriteActivity extends BaseActivity {
             @Override
             public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
                 @SuppressLint("InflateParams")
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_subcuisine_list, null);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_place_list, null);
                 return new Holder(view);
             }
 
@@ -70,26 +66,26 @@ public class MyFavoriteActivity extends BaseActivity {
             public void onBindViewHolder(Holder holder, int position) {
                 holder.bind(position);
 
-                int screenWidth = ScreenUtil.getScreenWidth();
-                int width = (screenWidth - PADDING_INSIDE *2 - PADDING_OUTSIDE * 2) / 2;
-                int height = width + (int)getResources().getDimension(R.dimen.cardview_title_height);
-
-                CardView.LayoutParams params = new CardView.LayoutParams(width,height);
-                params.gravity = Gravity.CENTER_HORIZONTAL;
-                params.bottomMargin = PADDING_OUTSIDE;
-                params.topMargin = PADDING_OUTSIDE;
-                if(position % 2 == 0) {
-                    params.leftMargin = PADDING_OUTSIDE;
-                    params.rightMargin = PADDING_INSIDE;
-                } else {
-                    params.leftMargin = PADDING_INSIDE;
-                    params.rightMargin = 0;
-                }
-                holder.itemView.setLayoutParams(params);
-                ImageView img = (ImageView)holder.itemView.findViewById(R.id.sub_image);
-                ViewGroup.LayoutParams imgParams = img.getLayoutParams();
-                imgParams.width = imgParams.height = width;
-                img.setLayoutParams(imgParams);
+//                int screenWidth = ScreenUtil.getScreenWidth();
+//                int width = (screenWidth - PADDING_INSIDE *2 - PADDING_OUTSIDE * 2) / 2;
+//                int height = width + (int)getResources().getDimension(R.dimen.cardview_title_height);
+//
+//                CardView.LayoutParams params = new CardView.LayoutParams(width,height);
+//                params.gravity = Gravity.CENTER_HORIZONTAL;
+//                params.bottomMargin = PADDING_OUTSIDE;
+//                params.topMargin = PADDING_OUTSIDE;
+//                if(position % 2 == 0) {
+//                    params.leftMargin = PADDING_OUTSIDE;
+//                    params.rightMargin = PADDING_INSIDE;
+//                } else {
+//                    params.leftMargin = PADDING_INSIDE;
+//                    params.rightMargin = 0;
+//                }
+//                holder.itemView.setLayoutParams(params);
+//                ImageView img = (ImageView)holder.itemView.findViewById(R.id.sub_image);
+//                ViewGroup.LayoutParams imgParams = img.getLayoutParams();
+//                imgParams.width = imgParams.height = width;
+//                img.setLayoutParams(imgParams);
             }
 
             @Override
@@ -113,13 +109,13 @@ public class MyFavoriteActivity extends BaseActivity {
     }
 
     class Holder extends RecyclerView.ViewHolder {
-        ImageView subImage;
+//        ImageView subImage;
         TextView subTitle;
 
         public Holder(View itemView) {
             super(itemView);
-            subImage = (ImageView) itemView.findViewById(R.id.sub_image);
-            subTitle = (TextView) itemView.findViewById(R.id.sub_title);
+//            subImage = (ImageView) itemView.findViewById(R.id.sub_image);
+            subTitle = (TextView) itemView.findViewById(R.id.title);
         }
 
         public void bind(int position) {

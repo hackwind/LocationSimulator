@@ -23,10 +23,11 @@
     <string name="remove_favorite">取消收藏</string>
 
     <string name="menu_search">搜索</string>
-    <string name="search_hint">搜索地名</string>
+    <string name="search_place">输入地名</string>
+    <string name="search_city">输入城市名</string>
 
     <string name="cancel">取消</string>
-    <string name="no_result">没有找到相关的菜谱哦</string>
+    <string name="no_result">没有找到相关的地名哦</string>
 
     <string name="about">关于</string>
 
@@ -42,11 +43,12 @@
     <string name="click_right_top">点击右上角按钮，弹出下图所示，从底部选择“从相册选择二维码”，弹出相册目录，默认第一张二维码就是之前保存的二维码。</string>
     <string name="scan_for_reward">微信扫一扫下面的二维码进行打赏</string>
 
-    <string name="setting_tip">检测到您的手机设置不正确，暂时无法开启虚拟定位，请按下列提示设置后，再开启虚拟定位！</string>
-    <string name="setting_alert">跳过并继续穿越\n(可能会穿越失败或其他异常，谨慎跳过)</string>
+    <string name="setting_tip">检测到您的手机设置不正确，暂时无法开启模拟定位，请按下列提示设置后，再开启模拟定位！</string>
+    <string name="setting_alert">知道了</string>
     <string name="close_postion_service">②关闭"位置服务"</string>
-    <string name="open_mock_app">①开启“允许模拟位置”或者“选择模拟位置信息应用”时选中本软件</string>
-    <string name="fast_setting">×(点击我进行设置)</string>
+    <string name="open_mock_app_low">①开启“允许模拟位置”</string>
+    <string name="open_mock_app_high">①请在“选择模拟位置信息应用”时选中本软件</string>
+    <string name="fast_setting">×(此处设置不正确，点击我进行设置)</string>
     <string name="setting_right">√(此处设置正确)</string>
     <string name="dialog_title">温馨提示</string>
 </resources>

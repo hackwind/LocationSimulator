@@ -18,6 +18,7 @@
             android:background="@drawable/shape_round_corner_white"
             android:stateListAnimator="@animator/touch_raise">
             <TextView
+                android:id="@+id/search_place"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"

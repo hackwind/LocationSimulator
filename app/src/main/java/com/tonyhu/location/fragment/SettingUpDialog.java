@@ -1,10 +1,13 @@
 package com.tonyhu.location.fragment;
 
 import android.app.Dialog;
-import android.graphics.Color;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,7 +19,7 @@ import com.tonyhu.location.R;
  * Created by Administrator on 2017/7/19.
  */
 
-public class SettingUpDialog extends DialogFragment {
+public class SettingUpDialog extends DialogFragment implements View.OnClickListener {
     private LinearLayout settingup1;
     private LinearLayout settingup2;
     private TextView result1;
@@ -41,38 +44,51 @@ public class SettingUpDialog extends DialogFragment {
         settingup2 = (LinearLayout) view.findViewById(R.id.layout_setting2);
         result1 = (TextView)view.findViewById(R.id.result_setting1);
         result2 = (TextView)view.findViewById(R.id.result_setting2);
+        final String setRight = getResources().getString(R.string.setting_right);
+        final String setWrong = getResources().getString(R.string.fast_setting);
+        final String setting1 = Build.VERSION.SDK_INT >= 23 ? getResources().getString(R.string.open_mock_app_high) : getResources().getString(R.string.open_mock_app_low);
+        final String setting2 = getResources().getString(R.string.close_postion_service);
         switch (type) {
             case 0:
-                result1.setText(R.string.setting_right);
-                result1.setTextColor(Color.rgb(153,217,234));
+                result1.setText(Html.fromHtml(setting1 + "<font color='#4169E1'>" + setRight + "</font>"));
 
-                result2.setText(R.string.setting_right);
-                result2.setTextColor(Color.rgb(153,217,234));
+                result2.setText(Html.fromHtml(setting2 + "<font color='#4169E1'>" + setRight + "</font>"));
                 break;
             case 1:
-                result1.setText(R.string.fast_setting);
-                result1.setTextColor(Color.RED);
+                result1.setText(Html.fromHtml(setting1 + "<font color='#FF0000'>" + setWrong + "</font>"));
 
-                result2.setText(R.string.setting_right);
-                result2.setTextColor(Color.rgb(153,217,234));
+                result2.setText(Html.fromHtml(setting2 + "<font color='#4169E1'>" + setRight + "</font>"));
                 break;
             case 2:
-                result1.setText(R.string.setting_right);
-                result1.setTextColor(Color.rgb(153,217,234));
+                result1.setText(Html.fromHtml(setting1 + "<font color='#4169E1'>" + setRight + "</font>"));
 
-                result2.setText(R.string.fast_setting);
-                result2.setTextColor(Color.RED);
+                result2.setText(Html.fromHtml(setting2 + "<font color='#FF0000'>" + setWrong + "</font>"));
                 break;
             case 3:
-                result1.setText(R.string.fast_setting);
-                result1.setTextColor(Color.RED);
+                result1.setText(Html.fromHtml(setting1 + "<font color='#FF0000'>" + setWrong + "</font>"));
 
-                result2.setText(R.string.fast_setting);
-                result2.setTextColor(Color.RED);
+                result2.setText(Html.fromHtml(setting2 + "<font color='#FF0000'>" + setWrong + "</font>"));
                 break;
         }
-
+        result1.setOnClickListener(this);
+        result2.setOnClickListener(this);
         builder.setView(view);
         return builder.create();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.result_setting1:
+                Intent intent =  new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
+                startActivity(intent);
+                dismiss();
+                break;
+            case R.id.result_setting2:
+                intent =  new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+                dismiss();
+                break;
+        }
     }
 }

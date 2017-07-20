@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/my_toolbar"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_height="wrap_content"
@@ -21,22 +21,39 @@
             android:id="@+id/expanded_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             >
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:padding="10dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/edit_text_color"
+                android:hint="@string/search_city"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textColorHint="@color/hint_color"
+                android:background="@drawable/shape_round_corner_white"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
             <EditText
                 android:id="@+id/keyword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
-                android:drawablePadding="15dp"
                 android:layout_marginLeft="5dp"
-                android:padding="2dp"
+                android:layout_marginRight="5dp"
+                android:padding="10dp"
                 android:gravity="center_vertical"
-                android:drawableLeft="@drawable/ic_search_black_24dp"
                 android:textColor="@color/edit_text_color"
-                android:hint="@string/search_hint"
+                android:hint="@string/search_place"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:inputType="text"
@@ -47,17 +64,7 @@
                 android:background="@drawable/shape_round_corner_white"
                 android:focusable="true"
                 android:focusableInTouchMode="true"/>
-            <TextView
-                android:id="@+id/cancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:layout_weight="5"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@android:color/white"
-                android:gravity="center_vertical"
-                android:text="@string/cancel"/>
+
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>

@@ -43,7 +43,7 @@ public abstract class NavigationDrawerActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 
         if(getMenuItemClickListener() != null) {
-            toolbar.findViewById(R.id.expanded_menu).setOnClickListener(getMenuItemClickListener());
+            toolbar.findViewById(R.id.search_place).setOnClickListener(getMenuItemClickListener());
         }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
