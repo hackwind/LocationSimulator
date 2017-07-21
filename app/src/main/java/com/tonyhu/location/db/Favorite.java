@@ -9,22 +9,19 @@ import java.io.Serializable;
  * Created by Administrator on 2017/3/27.
  */
 
-@DatabaseTable(tableName = "category")
+@DatabaseTable(tableName = "favorite")
 public class Favorite implements Serializable{
     private static final long serialVersionUID = 12345690l;
     @DatabaseField(generatedId=true,columnName="id")
     private Integer id;
-    @DatabaseField(columnName="category")
-    private Integer category;
-    @DatabaseField(columnName="order")
-    private Integer order;
     @DatabaseField(columnName="name")
     private String name;
-    @DatabaseField(columnName="image")
-    private String image;
-
-    @DatabaseField(columnName="parent_category")
-    private int parentCategory;
+    @DatabaseField(columnName="address")
+    private String address;
+    @DatabaseField(columnName="latitude")
+    private Double latitude;
+    @DatabaseField(columnName="longitude")
+    private Double longitude;
 
     public Favorite() {
 
@@ -36,13 +33,6 @@ public class Favorite implements Serializable{
     public void setId(Integer id) {
         this.id = id;
     }
-    public Integer getCategory() {
-        return category;
-    }
-
-    public void setCategory(Integer category) {
-        this.category = category;
-    }
 
     public String getName() {
         return name;
@@ -52,11 +42,26 @@ public class Favorite implements Serializable{
         this.name = name;
     }
 
-    public int getParentCategory() {return this.parentCategory;}
+    public Double getLatitude() {
+        return latitude;
+    }
 
-    public void setParentCategory(int parentCategory){this.parentCategory = parentCategory;}
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
 
-    public String getImage() {return this.image;}
+    public Double getLongitude() {
+        return longitude;
+    }
 
-    public void setImage(String image) {this.image = image;}
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

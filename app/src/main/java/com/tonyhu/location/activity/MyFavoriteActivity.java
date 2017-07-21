@@ -1,16 +1,17 @@
 package com.tonyhu.location.activity;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tonyhu.location.R;
@@ -29,7 +30,7 @@ public class MyFavoriteActivity extends BaseActivity {
     private final static int PADDING_OUTSIDE = ScreenUtil.dip2px(6);
     private final static int PADDING_INSIDE = ScreenUtil.dip2px(3);
     private RecyclerView.Adapter adapter;
-    private List<Favorite> cuisineItems;
+    private List<Favorite> favorites;
 
 
     @Override
@@ -50,7 +51,7 @@ public class MyFavoriteActivity extends BaseActivity {
 
     private void initView() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listview);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(GridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -66,31 +67,11 @@ public class MyFavoriteActivity extends BaseActivity {
             public void onBindViewHolder(Holder holder, int position) {
                 holder.bind(position);
 
-//                int screenWidth = ScreenUtil.getScreenWidth();
-//                int width = (screenWidth - PADDING_INSIDE *2 - PADDING_OUTSIDE * 2) / 2;
-//                int height = width + (int)getResources().getDimension(R.dimen.cardview_title_height);
-//
-//                CardView.LayoutParams params = new CardView.LayoutParams(width,height);
-//                params.gravity = Gravity.CENTER_HORIZONTAL;
-//                params.bottomMargin = PADDING_OUTSIDE;
-//                params.topMargin = PADDING_OUTSIDE;
-//                if(position % 2 == 0) {
-//                    params.leftMargin = PADDING_OUTSIDE;
-//                    params.rightMargin = PADDING_INSIDE;
-//                } else {
-//                    params.leftMargin = PADDING_INSIDE;
-//                    params.rightMargin = 0;
-//                }
-//                holder.itemView.setLayoutParams(params);
-//                ImageView img = (ImageView)holder.itemView.findViewById(R.id.sub_image);
-//                ViewGroup.LayoutParams imgParams = img.getLayoutParams();
-//                imgParams.width = imgParams.height = width;
-//                img.setLayoutParams(imgParams);
             }
 
             @Override
             public int getItemCount() {
-                return cuisineItems == null ? 0 : cuisineItems.size();
+                return favorites == null ? 0 : favorites.size();
             }
         };
         recyclerView.setAdapter(adapter);
@@ -98,8 +79,8 @@ public class MyFavoriteActivity extends BaseActivity {
 
     private void getData() {
         FavoriteDao dao = new FavoriteDao();
-        cuisineItems = dao.listAll();
-        if(cuisineItems == null) {
+        favorites = dao.listAll();
+        if(favorites == null) {
             return;
         }
 
@@ -109,38 +90,33 @@ public class MyFavoriteActivity extends BaseActivity {
     }
 
     class Holder extends RecyclerView.ViewHolder {
-//        ImageView subImage;
-        TextView subTitle;
+        TextView name;
+        TextView address;
 
         public Holder(View itemView) {
             super(itemView);
-//            subImage = (ImageView) itemView.findViewById(R.id.sub_image);
-            subTitle = (TextView) itemView.findViewById(R.id.title);
+            name = (TextView) itemView.findViewById(R.id.title);
+            address = (TextView) itemView.findViewById(R.id.address);
         }
 
         public void bind(int position) {
-//            final Favorite cuisine = cuisineItems.get(position);
-//            String cover = cuisine.getBannerImage();
-//            if (cover == null) {
-//                // set default image
-//                subImage.setImageResource(R.drawable.default_image);
-//            } else {
-//                Bitmap bitmap = ImageUtil.getAssetsBitmap(cuisine.getName(), cover);
-//                if (bitmap != null) {
-//                    subImage.setImageBitmap(bitmap);
-//                }
-//            }
-//            subTitle.setText(cuisine.getName());
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(MyFavoriteActivity.this, CuisineDetailActivity.class);
-//                    intent.putExtra("cuisine_id", cuisine.getId());
-//                    intent.putExtra("cuisine_name", cuisine.getName());
-//                    startActivity(intent);
-//                }
-//            });
+            final Favorite favorite = favorites.get(position);
+
+            name.setText((position + 1) + "." + favorite.getName());
+            address.setText(favorite.getAddress());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
+                public void onClick(View v) {
+                    Intent intent = new Intent(SearchActivity.ACTION_SEARCH_COMPLETE);
+                    intent.putExtra("lat",favorite.getLatitude());
+                    intent.putExtra("lng",favorite.getLongitude());
+                    intent.putExtra("name",favorite.getName());
+                    intent.putExtra("address",favorite.getAddress());
+                    sendBroadcast(intent);
+                    finish();
+                }
+            });
 
         }
 

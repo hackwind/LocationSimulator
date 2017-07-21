@@ -3,8 +3,11 @@ package com.tonyhu.location.fragment;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -17,14 +20,23 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -35,6 +47,9 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.tonyhu.location.R;
 import com.tonyhu.location.activity.MainActivity;
+import com.tonyhu.location.activity.SearchActivity;
+import com.tonyhu.location.db.Favorite;
+import com.tonyhu.location.db.FavoriteDao;
 import com.tonyhu.location.util.JZLocationConverter;
 
 import java.util.Date;
@@ -52,16 +67,49 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
     private LocationManager locationManager;
     private GeoCoder geoCoder;
     private Vibrator vibrator;
-    private boolean isFirstVibrate = true;
+    private boolean isLoopVibrate = false;
     private boolean stop = false;
     private String currentAddress;
     private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
-            btnPassThrough.setVisibility(View.GONE);
-            btnAddFavorite.setVisibility(View.GONE);
-            btnCancelPass.setVisibility(View.VISIBLE);
+            switch (msg.what) {
+                case 0:
+                    btnPassThrough.setVisibility(View.GONE);
+                    btnAddFavorite.setVisibility(View.GONE);
+                    btnCancelPass.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    btnPassThrough.setVisibility(View.VISIBLE);
+                    btnAddFavorite.setVisibility(View.VISIBLE);
+                    btnCancelPass.setVisibility(View.GONE);
+                    break;
+            }
+
+        }
+    };
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent != null && SearchActivity.ACTION_SEARCH_COMPLETE.equals(intent.getAction())) {
+                double lat = intent.getDoubleExtra("lat",0);
+                double lng = intent.getDoubleExtra("lng",0);
+                String address = intent.getStringExtra("address");
+                String name = intent.getStringExtra("name");
+                if(lat != 0d && lng != 0d && mapView.getMap() != null) {
+                    LatLng latLng = new LatLng(lat,lng);
+                    MapStatus status =  new MapStatus.Builder().target(latLng).zoom(18).build();
+                    MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory
+                            .newMapStatus(status);
+                    mapView.getMap().setMapStatus(mMapStatusUpdate);
+                    currentAddress = address;
+                    txtPosition.setText(address);
+                    handler.sendEmptyMessage(1);
+                }
+
+
+            }
         }
     };
 
@@ -81,6 +129,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
 
     private void initView(View view) {
         mapView = (TextureMapView) view.findViewById(R.id.baidumap);
+
         btnAddFavorite = (TextView)view.findViewById(R.id.btn_add_favorite);
         btnPassThrough = (TextView)view.findViewById(R.id.btn_pass);
         btnCancelPass = (TextView)view.findViewById(R.id.btn_cancel_pass);
@@ -97,7 +146,20 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
     public void onPause(){
         mapView.setVisibility(View.INVISIBLE);
         mapView.onPause();
+
         super.onPause();
+    }
+    @Override
+    public void onStart() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(SearchActivity.ACTION_SEARCH_COMPLETE);
+        getContext().registerReceiver(receiver,filter);
+        super.onStart();
+    }
+    @Override
+    public void onDestroy() {
+        getContext().unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
     @Override
@@ -112,7 +174,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_favorite:
-
+                addFavorite();
                 break;
             case R.id.btn_pass:
                 boolean canMock = canMockPosition();
@@ -123,6 +185,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
                     return;
                 }
                 stop = false;
+                isLoopVibrate = false;
                 new Thread(new RunnableMockLocation()).start();
                 break;
             case R.id.btn_cancel_pass:
@@ -156,6 +219,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
 
     @Override
     public void onMapStatusChangeFinish(MapStatus mapStatus) {
+        handler.sendEmptyMessage(1);
         getLocationAddress(mapView.getMap().getMapStatus().target);
     }
 
@@ -207,14 +271,15 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
                             mockLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
                         }
                         locationManager.setTestProviderLocation(providerStr, mockLocation);
-                        if(isFirstVibrate) {
-                            isFirstVibrate = false;
+                        if(!isLoopVibrate) {
+                            isLoopVibrate = true;
                             vibrate();
                             showNotification();
                             handler.sendEmptyMessage(0);
-
+                            addOverlay(latLng);
                         }
                     } catch (Exception e) {
+                        e.printStackTrace();
                         // 防止用户在软件运行过程中关闭模拟位置或选择其他应用
                         stopMockLocation();
                     }
@@ -299,7 +364,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         }
         cancelNotification();
         hasAddTestProvider = false;
-        isFirstVibrate = true;
+        isLoopVibrate = false;
     }
 
     /**
@@ -361,5 +426,48 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
 //                ((LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE));
 //        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         return false;
+    }
+
+    private void addOverlay(LatLng latLng) {
+        // 构建Marker图标
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.drawable.location);
+        // 构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions option = new MarkerOptions().position(latLng).icon(
+                bitmap);
+        // 在地图上添加Marker，并显示
+        mapView.getMap().clear();
+        mapView.getMap().addOverlay(option);
+    }
+
+    private void addFavorite() {
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view = inflater.inflate(R.layout.dialog_add_favoriate,null);
+        final  TextView tvAddress = (TextView)view.findViewById(R.id.favorite_address);
+        final EditText etName = (EditText)view.findViewById(R.id.favorite_name);
+        tvAddress.setText(currentAddress);
+        new AlertDialog.Builder(getActivity()).setTitle("添加收藏")
+                .setView(view)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        LatLng latLng = mapView.getMap().getMapStatus().target;
+                        Favorite favorite = new Favorite();
+                        favorite.setAddress(currentAddress);
+                        favorite.setLatitude(latLng.latitude);
+                        favorite.setLongitude(latLng.longitude);
+                        favorite.setName(etName.getText().toString().trim());
+
+                        FavoriteDao dao = new FavoriteDao();
+                        int row = dao.add(favorite);
+                        if(row == 1) {
+                            Toast.makeText(getContext(), "添加收藏成功",
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+
+                    }
+                }).setNegativeButton("取消", null).show();
     }
 }

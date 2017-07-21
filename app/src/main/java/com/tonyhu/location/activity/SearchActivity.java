@@ -38,6 +38,7 @@ import java.util.List;
  */
 
 public class SearchActivity extends BaseActivity implements OnGetPoiSearchResultListener {
+    public final static String ACTION_SEARCH_COMPLETE = "action_search_complete";
     private RecyclerView.Adapter adapter;
     private EditText etPlace;
     private EditText etCity;
@@ -125,7 +126,7 @@ public class SearchActivity extends BaseActivity implements OnGetPoiSearchResult
         citySearchOption.city(city);// 城市
         citySearchOption.keyword(keyword);// 关键字
         citySearchOption.pageCapacity(20);// 默认每页10条
-        citySearchOption.pageNum(1);// 分页编号
+        citySearchOption.pageNum(0);// 分页编号，从0开始
         // 为PoiSearch设置搜索方式.
         poiSearch.searchInCity(citySearchOption);
 
@@ -162,6 +163,7 @@ public class SearchActivity extends BaseActivity implements OnGetPoiSearchResult
     public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
     }
 
+
     class Holder extends RecyclerView.ViewHolder {
         TextView subTitle;
         TextView address;
@@ -180,12 +182,13 @@ public class SearchActivity extends BaseActivity implements OnGetPoiSearchResult
                 @Override
                 @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
                 public void onClick(View v) {
-                    Intent intent = new Intent();
+                    Intent intent = new Intent(ACTION_SEARCH_COMPLETE);
                     intent.putExtra("lat",info.location.latitude);
                     intent.putExtra("lng",info.location.longitude);
                     intent.putExtra("name",info.name);
                     intent.putExtra("address",info.address);
-                    setResult(RESULT_OK,intent);
+                    sendBroadcast(intent);
+                    finish();
                 }
             });
 

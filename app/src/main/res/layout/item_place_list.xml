@@ -11,7 +11,7 @@
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
@@ -20,10 +20,10 @@
         <TextView
             android:id="@+id/address"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:paddingLeft="12dp"
+            android:paddingLeft="25dp"
             android:textSize="12sp"
             android:textColor="@color/hint_color"/>
     </LinearLayout>

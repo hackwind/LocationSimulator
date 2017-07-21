@@ -15,19 +15,20 @@ public class FavoriteDao {
 
     public FavoriteDao() {
         try {
-//            dao = DataBaseHelper.getHelper().getDao(Favorite.class);
-            dao = DBHelper.getHelper().getDao(Favorite.class);
+            dao = DataBaseHelper.getHelper().getDao(Favorite.class);
+//            dao = DBHelper.getHelper().getDao(Favorite.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void addCategory(Favorite category) {
+    public int add(Favorite favor) {
         try {
-            dao.create(category);
+            return dao.create(favor);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     public Favorite get(int id) {
@@ -48,26 +49,17 @@ public class FavoriteDao {
         }
     }
 
-    public List<Favorite> listByCategory(int category) {
+    public void delete(int id) {
         try {
-            return  dao.queryBuilder().orderBy("category",true).where().eq("category",category).query();
+            dao.deleteById(id);
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
-        }
-    }
-    public List<Favorite> listByParentCategory(int category) {
-        try {
-            return  dao.queryBuilder().orderBy("category",true).where().eq("parent_category",category).query();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
-    public void update(Favorite t){
+    public void deleteAll(List<Favorite> list) {
         try {
-            dao.update(t);
+            dao.delete(list);
         } catch (SQLException e) {
             e.printStackTrace();
         }
