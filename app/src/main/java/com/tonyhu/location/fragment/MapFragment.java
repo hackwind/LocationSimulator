@@ -281,7 +281,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
                     } catch (Exception e) {
                         e.printStackTrace();
                         // 防止用户在软件运行过程中关闭模拟位置或选择其他应用
-                        stopMockLocation();
+                        cancelMockPosition();
                     }
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -293,21 +293,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         }
     }
 
-    /**
-     * 停止模拟位置，以免启用模拟数据后无法还原使用系统位置
-     * 若模拟位置未开启，则removeTestProvider将会抛出异常；
-     * 若已addTestProvider后，关闭模拟位置，未removeTestProvider将导致系统GPS无数据更新；
-     */
-    public void stopMockLocation() {
-        if (hasAddTestProvider) {
-            try {
-                locationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
-            } catch (Exception ex) {
-                // 若未成功addTestProvider，或者系统模拟位置已关闭则必然会出错
-            }
-            hasAddTestProvider = false;
-        }
-    }
+
     boolean hasAddTestProvider = false;
     private boolean canMockPosition() {
         //具体参考：http://blog.csdn.net/doris_d/article/details/51384285

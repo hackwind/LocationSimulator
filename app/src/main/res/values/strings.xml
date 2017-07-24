@@ -51,4 +51,13 @@
     <string name="fast_setting">×(此处设置不正确，点击我进行设置)</string>
     <string name="setting_right">√(此处设置正确)</string>
     <string name="dialog_title">温馨提示</string>
+
+    <string name="sy_desc">神游功能介绍：\n 神游功能是指多个位置之间按指定的时间间隔切换定位，例如有A、B和C三个位置，设定的间隔是10分钟，第一次定位会在A位置，10分钟后，定位切换到B位置，继续过10分钟后，定位切换到C位置，如果设置了循环，10分钟后继续从A位置开始。</string>
+    <string name="sy_step">开启神游步骤：\n 1.先将需要定位的位置先在“穿越”页面按顺序添加到收藏夹中，注意收藏时一定要按先后顺序，把不需要用到的位置需从收藏夹中移除；\n
+    2.收藏完所有位置后，在下面的设置中设置是否开启循环定位，以及每个位置切换时间间隔。</string>
+    <string name="repeat">开启循环定位</string>
+    <string name="interval">位置切换间隔</string>
+    <string name="minute">分钟</string>
+    <string name="begin_location">开始定位</string>
+    <string name="stop_location">停止定位</string>
 </resources>

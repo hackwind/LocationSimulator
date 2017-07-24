@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_awesome_toolbar"
@@ -10,9 +11,83 @@
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:visibility="gone"/>
-    <TextView android:layout_height="match_parent"
+    <TextView
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="我是fragment"
+        android:text="@string/sy_desc"
+        android:textSize="16sp"
         android:textColor="#000000"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/sy_step"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:textColor="#000000"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:text="@string/repeat"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:text="@string/interval"/>
+        <EditText
+            android:id="@+id/edit_interval"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:digits="0123456789"
+            android:textColor="#0000FF"
+            android:text="10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:text="@string/minute"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+       <Button
+           android:id="@+id/btn_start"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/begin_location"/>
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_location"/>
+    </LinearLayout>
+
+    <com.baidu.mapapi.map.TextureMapView
+        android:id="@+id/baidumap"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
 
 </LinearLayout>

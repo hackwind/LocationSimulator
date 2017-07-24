@@ -69,7 +69,7 @@
             android:exported="false" />
         <provider
             android:name="com.qihoo.appstore.updatelib.UpdateProvider"
-            android:authorities="com.tonyhu.cookbook"
+            android:authorities="com.tonyhu.location"
             android:grantUriPermissions="true"
             android:exported="false">
             <meta-data
@@ -90,7 +90,7 @@
         </activity>
 
         <!-- UMeng SDK -->
-        <meta-data android:value="59262e04c62dca73200015b7" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="59745c0f8630f5240a0006a4" android:name="UMENG_APPKEY"/>
         <meta-data android:value="qq" android:name="UMENG_CHANNEL"/>
 
         <!-- baidu map -->

@@ -15,5 +15,41 @@
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/my_toolbar"/>
+        android:layout_below="@id/my_toolbar"
+        android:layout_above="@+id/bottom_layout"/>
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+        <TextView
+            android:id="@+id/btn_select_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#a3a3a3"
+            android:text="全选"
+            android:enabled="false"/>
+        <TextView
+            android:id="@+id/btn_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#a3a3a3"
+            android:text="删除"
+            android:enabled="false"/>
+        <TextView
+            android:id="@+id/btn_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:text="编辑"/>
+    </LinearLayout>
 </RelativeLayout>
