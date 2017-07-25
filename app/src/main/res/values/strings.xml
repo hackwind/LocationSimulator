@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">模拟定位</string>
-    <string name="app_nick">打卡助手</string>
-    <string name="user_heart">用心烹饪</string>
-    <string name="worth_wait">值得等待</string>
+    <string name="app_nick">之打卡助手</string>
+    <string name="user_heart">漫游神州</string>
+    <string name="worth_wait">我帮你忙</string>
     <string name="drawer_favorite">我的收藏</string>
     <string name="drawer_reward">打&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;赏</string>
     <string name="drawer_feedback">意见反馈</string>
@@ -32,11 +32,11 @@
     <string name="about">关于</string>
 
     <string name="reward">赏</string>
-    <string name="reward_tip">打赏一下胡爸</string>
-    <string name="thanks">感谢</string>
-    <string name="thanks_content"></string>
-    <string name="scan">扫一扫下面的二维码关注公众号</string>
-    <string name="search_gongzhonghao">或者微信搜索公众号:"胡爸菜谱"，即可在公众号里留言了</string>
+    <string name="reward_tip">打赏一下作者</string>
+    <string name="thanks">关于</string>
+    <string name="thanks_content">模拟定位能帮助异地打卡或漫游，如钉钉打卡。注意：因为新版的微信不再依赖手机自带的定位模块，所以本app不适合新版的微信</string>
+    <string name="scan">扫一扫下面的二维码加入QQ群</string>
+    <string name="search_gongzhonghao">或者QQ搜索群号:649974080</string>
     <string name="only_one_phone"><u>只有一个手机，无法扫描，怎么办？点击我试试</u></string>
     <string name="save_qrcode">保存二维码到相册</string>
     <string name="after_save_qrcode">点击上面的按钮，将二维码保存到手机相册，然后打开微信扫一扫，如下图</string>
@@ -52,12 +52,15 @@
     <string name="setting_right">√(此处设置正确)</string>
     <string name="dialog_title">温馨提示</string>
 
-    <string name="sy_desc">神游功能介绍：\n 神游功能是指多个位置之间按指定的时间间隔切换定位，例如有A、B和C三个位置，设定的间隔是10分钟，第一次定位会在A位置，10分钟后，定位切换到B位置，继续过10分钟后，定位切换到C位置，如果设置了循环，10分钟后继续从A位置开始。</string>
-    <string name="sy_step">开启神游步骤：\n 1.先将需要定位的位置先在“穿越”页面按顺序添加到收藏夹中，注意收藏时一定要按先后顺序，把不需要用到的位置需从收藏夹中移除；\n
+    <string name="sy_desc_title">神游功能介绍：</string>
+    <string name="sy_desc">神游功能是指多个位置之间按指定的时间间隔切换定位，例如有A、B和C三个位置，并且设定的间隔是10分钟，第一次定位会在A位置，10分钟后，定位切换到B位置，再过10分钟后，定位切换到C位置，如果设置循环，10分钟后继续从A位置开始。</string>
+    <string name="sy_step_title">开启神游步骤：</string>
+    <string name="sy_step">1.先将需要定位的位置先在“穿越”页面按顺序添加到收藏夹中，注意收藏时一定要按先后顺序，不需要用到的位置需从收藏夹中移除；\n
     2.收藏完所有位置后，在下面的设置中设置是否开启循环定位，以及每个位置切换时间间隔。</string>
-    <string name="repeat">开启循环定位</string>
-    <string name="interval">位置切换间隔</string>
+    <string name="repeat">1.开启循环定位</string>
+    <string name="interval">2.位置切换间隔</string>
     <string name="minute">分钟</string>
-    <string name="begin_location">开始定位</string>
-    <string name="stop_location">停止定位</string>
+    <string name="begin_location">开始神游</string>
+    <string name="stop_location">停止神游</string>
+    <string name="setting">设置:</string>
 </resources>

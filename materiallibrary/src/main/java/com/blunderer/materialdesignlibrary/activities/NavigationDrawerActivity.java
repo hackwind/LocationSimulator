@@ -31,8 +31,6 @@ public abstract class NavigationDrawerActivity extends AppCompatActivity {
     protected DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     protected View mDrawerLeft;
-//    private TextView mTip;
-    private TextView mMotto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +46,6 @@ public abstract class NavigationDrawerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        mTip = (TextView) findViewById(R.id.drawer_tip_text);
-//        mMotto = (TextView) findViewById(R.id.life_motto);
-
         mDrawerLeft = findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -62,12 +57,6 @@ public abstract class NavigationDrawerActivity extends AppCompatActivity {
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-//                NavigationDrawerTopHandler navigationDrawerTopHandler = getNavigationDrawerTopHandler();
-//                if (navigationDrawerTopHandler != null && navigationDrawerTopHandler.getNavigationDrawerTopTip() != null
-//                        && navigationDrawerTopHandler.getNavigationDrawerTopMotto() != null) {
-//                    mTip.setText(navigationDrawerTopHandler.getNavigationDrawerTopTip());
-//                    mMotto.setText(navigationDrawerTopHandler.getNavigationDrawerTopMotto());
-//                }
             }
 
         };

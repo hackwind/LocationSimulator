@@ -18,9 +18,13 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.qq.e.ads.banner.ADSize;
+import com.qq.e.ads.banner.AbstractBannerADListener;
+import com.qq.e.ads.banner.BannerView;
 import com.tonyhu.location.R;
 import com.tonyhu.location.db.Favorite;
 import com.tonyhu.location.db.FavoriteDao;
+import com.tonyhu.location.util.Constants;
 import com.tonyhu.location.util.ScreenUtil;
 
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ public class MyFavoriteActivity extends BaseActivity implements View.OnClickList
     private TextView btnDelete;
     private List<Integer> selectList;
     private boolean isEditStatus = false;
+    private LinearLayout adView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,7 @@ public class MyFavoriteActivity extends BaseActivity implements View.OnClickList
 
         initView();
         getData();
+        loadAd();
     }
 
     private void initView() {
@@ -84,6 +90,8 @@ public class MyFavoriteActivity extends BaseActivity implements View.OnClickList
             }
         };
         recyclerView.setAdapter(adapter);
+
+        adView = (LinearLayout)findViewById(R.id.bannerview);
 
         bottomLayout = (LinearLayout)findViewById(R.id.bottom_layout);
         btnDelete = (TextView)findViewById(R.id.btn_delete);
@@ -131,9 +139,9 @@ public class MyFavoriteActivity extends BaseActivity implements View.OnClickList
         } else {
             btnEdit.setText("编辑");
             btnDelete.setEnabled(false);
-            btnDelete.setTextColor(Color.parseColor("#F3F3F3"));
+            btnDelete.setTextColor(Color.parseColor("#636363"));
             btnSelectAll.setEnabled(false);
-            btnSelectAll.setTextColor(Color.parseColor("#F3F3F3"));
+            btnSelectAll.setTextColor(Color.parseColor("#636363"));
         }
         adapter.notifyDataSetChanged();
         recyclerView.invalidate();
@@ -240,6 +248,33 @@ public class MyFavoriteActivity extends BaseActivity implements View.OnClickList
             });
 
         }
+
+    }
+
+    private void loadAd() {
+        BannerView bv = new BannerView(this, ADSize.BANNER,
+                Constants.GDT_APPID, Constants.GDT_PAGE_FAVORITE);
+        bv.setRefresh(30);// 广告轮播时间 按钮默认关闭
+        bv.setADListener(new AbstractBannerADListener() {
+
+            @Override
+            public void onNoAD(int arg0) {
+                // 广告加载失败
+            }
+
+            @Override
+            public void onADReceiv() {
+                // 加载广告成功时
+            }
+
+            @Override
+            public void onADClicked() {
+                // 广告点击时
+                super.onADClicked();
+            }
+        });
+        adView.addView(bv);
+        bv.loadAD();
 
     }
 

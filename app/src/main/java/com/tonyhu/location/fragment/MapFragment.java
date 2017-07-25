@@ -45,11 +45,14 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.qq.e.ads.interstitial.AbstractInterstitialADListener;
+import com.qq.e.ads.interstitial.InterstitialAD;
 import com.tonyhu.location.R;
 import com.tonyhu.location.activity.MainActivity;
 import com.tonyhu.location.activity.SearchActivity;
 import com.tonyhu.location.db.Favorite;
 import com.tonyhu.location.db.FavoriteDao;
+import com.tonyhu.location.util.Constants;
 import com.tonyhu.location.util.JZLocationConverter;
 
 import java.util.Date;
@@ -113,6 +116,9 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         }
     };
 
+    //腾讯广点通插屏广告
+    private InterstitialAD iad;
+
     public MapFragment() {
 
     }
@@ -141,6 +147,29 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         mapView.getMap().setOnMapLoadedCallback(this);
     }
 
+    private InterstitialAD getIAD() {
+        if (iad == null) {
+            iad = new InterstitialAD(getActivity(), Constants.GDT_APPID, Constants.GDT_PAGE_MAIN);
+        }
+        return iad;
+    }
+
+    private void showAD() {
+        getIAD().setADListener(new AbstractInterstitialADListener() {
+
+            @Override
+            public void onNoAD(int arg0) {
+                Log.i("AD_DEMO", "LoadInterstitialAd Fail:" + arg0);
+            }
+
+            @Override
+            public void onADReceive() {
+                Log.i("AD_DEMO", "onADReceive");
+                iad.show();
+            }
+        });
+        iad.loadAD();
+    }
 
     @Override
     public void onPause(){
@@ -155,6 +184,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         filter.addAction(SearchActivity.ACTION_SEARCH_COMPLETE);
         getContext().registerReceiver(receiver,filter);
         super.onStart();
+        showAD();
     }
     @Override
     public void onDestroy() {

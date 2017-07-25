@@ -60,7 +60,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
 
         mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
-        mTabHost.setup(getContext(), getActivity().getSupportFragmentManager(), R.id.tabcontent);
+        mTabHost.setup(getContext(), getChildFragmentManager(), R.id.tabcontent);
         mTabHost.getTabWidget().setVisibility(View.GONE);//隐藏顶部切换菜单
         for (int i = 0; i < tabs.length; i++) {
             mTabHost.addTab(mTabHost.newTabSpec(tabs[i]).setIndicator(tabs[i]),cls[i], null);

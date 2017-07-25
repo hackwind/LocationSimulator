@@ -7,7 +7,10 @@ package com.tonyhu.location.util;
 public class Constants {
 
     public final static String GDT_APPID = "1101152570";
-    public final static String GDT_SPLASH_POS_ID = "1020122381039868";
-    public final static String GDT_PAGE_DETAIL_POS_ID = "5050522311939563";//"9079537218417626401";
-    public final static String GDT_PAGE_PHOTO_REVIEW_POS_ID = "4050528361034857";
+    public final static String GDT_SPLASH_POS_ID = "1070720495106046";
+    public final static String GDT_PAGE_FAVORITE = "7010221455708097";//"9079537218417626401";
+    public final static String GDT_PAGE_FEEDBACK= "6090425445707008";
+    public final static String GDT_PAGE_MAIN = "9070921405704296";
+    public final static String GDT_PAGE_SHENYOU = "9000729415407238";
+    public final static String GDT_PAGE_SEARCH = "7030023485200381";
 }

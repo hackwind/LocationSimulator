@@ -3,7 +3,6 @@ package com.tonyhu.location.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,13 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.mapapi.map.BaiduMapOptions;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.SupportMapFragment;
 import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerBottomHandler;
 import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerTopHandler;
 import com.blunderer.materialdesignlibrary.handlers.NavigationMainContentHandler;
-import com.qihoo.appstore.common.updatesdk.lib.UpdateHelper;
 import com.tonyhu.location.R;
 import com.tonyhu.location.fragment.MainFragment;
 import com.umeng.analytics.MobclickAgent;
@@ -43,8 +38,6 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
         }
         initStatusBar(R.color.color_primary);
         checkPermission();
-        //调用360检查更新sdk，后面的颜色是升级对话框状态栏颜色
-        UpdateHelper.getInstance().init(getApplicationContext(), Color.parseColor("#0A93DB"));
     }
 
     private void checkPermission() {
@@ -91,7 +84,6 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
         return new NavigationDrawerBottomHandler()
                 .addItem(R.string.drawer_favorite,0,mOnClickListener)
                 .addItem(R.string.drawer_feedback,0,mOnClickListener)
-                .addItem(R.string.drawer_update,0,mOnClickListener)
                 .addItem(R.string.drawer_reward,0,mOnClickListener)
                 .addItem(R.string.drawer_about,0,mOnClickListener);
     }
@@ -114,8 +106,6 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
                 startActivity(FeedBackActivity.class);
             } else if(title.equals(getString(R.string.drawer_reward))) {
                 startActivity(RewardActivity.class);
-            } else if(title.equals(getString(R.string.drawer_update))) {
-                UpdateHelper.getInstance().manualUpdate(getPackageName());
             } else if(title.equals(getString(R.string.drawer_about))) {
                 startActivity(AboutActivity.class);
             }

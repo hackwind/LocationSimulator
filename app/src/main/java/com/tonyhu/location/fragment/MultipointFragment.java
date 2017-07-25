@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +22,19 @@ import android.widget.Toast;
 
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
+import com.qq.e.ads.interstitial.AbstractInterstitialADListener;
+import com.qq.e.ads.interstitial.InterstitialAD;
 import com.tonyhu.location.R;
 import com.tonyhu.location.db.Favorite;
 import com.tonyhu.location.db.FavoriteDao;
+import com.tonyhu.location.util.Constants;
 import com.tonyhu.location.util.JZLocationConverter;
 
 import java.util.Date;
@@ -46,6 +53,9 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
     private List<Favorite> favorites;
     private boolean repeat = false;//是否循环
     private int interval = 10*60*1000;//轮训间隔,默认10分钟
+
+    //腾讯广点通插屏广告
+    private InterstitialAD iad;
 
     public MultipointFragment() {
     }
@@ -71,6 +81,31 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
         btnStop.setOnClickListener(this);
 
     }
+
+    private InterstitialAD getIAD() {
+        if (iad == null) {
+            iad = new InterstitialAD(getActivity(), Constants.GDT_APPID, Constants.GDT_PAGE_SHENYOU);
+        }
+        return iad;
+    }
+
+    private void showAD() {
+        getIAD().setADListener(new AbstractInterstitialADListener() {
+
+            @Override
+            public void onNoAD(int arg0) {
+                Log.i("AD_DEMO", "LoadInterstitialAd Fail:" + arg0);
+            }
+
+            @Override
+            public void onADReceive() {
+                Log.i("AD_DEMO", "onADReceive");
+                iad.show();
+            }
+        });
+        iad.loadAD();
+    }
+
     @Override
     public void onPause(){
         mapView.setVisibility(View.INVISIBLE);
@@ -114,9 +149,16 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
             Toast.makeText(getContext(),"收藏夹为空哦，先去收藏位置吧",Toast.LENGTH_LONG).show();
             return;
         }
+        int interval = Integer.parseInt(etInterval.getText().toString());
+        if(interval == 0) {
+            Toast.makeText(getContext(),"设定的间隔不能为0",Toast.LENGTH_LONG).show();
+            return;
+        }
+        btnStop.setEnabled(true);
         stop = false;
         checkBox.setEnabled(false);
         etInterval.setEnabled(false);
+        btnStart.setText("神游中...");
         new Thread(new MultipointFragment.RunnableMockLocation()).start();
     }
 
@@ -154,20 +196,31 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
 
     private void stopLocate(){
         stop = true;
+        btnStop.setEnabled(false);
         checkBox.setEnabled(true);
         etInterval.setEnabled(true);
+        mapView.getMap().clear();
+        btnStart.setText("开始神游");
     }
 
     private int index = 0;
     private class RunnableMockLocation implements Runnable {
-
+        private long startTime = 0;
+        private long interval = 0;
         @Override
         public void run() {
+            startTime = System.currentTimeMillis();
+            interval = Integer.parseInt(etInterval.getText().toString()) * 60 * 1000;
             while (!stop) {
                 try {
 
                     if (canMockPosition() == false) {
                         continue;
+                    }
+
+                    index = (int)((System.currentTimeMillis() - startTime) / interval);
+                    if(index >= favorites.size()) {
+                        index = index % favorites.size() ;
                     }
 
                     try {
@@ -190,7 +243,7 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
                         }
                         locationManager.setTestProviderLocation(providerStr, mockLocation);
                         addOverlay(latLng);
-
+                        locate(latLng);
                     } catch (Exception e) {
                         e.printStackTrace();
                         // 防止用户在软件运行过程中关闭模拟位置或选择其他应用
@@ -266,12 +319,17 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
     private void addOverlay(LatLng latLng) {
         // 构建Marker图标
         BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.location);
+                .fromResource(R.drawable.iamhere);
         // 构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions().position(latLng).icon(
                 bitmap);
         // 在地图上添加Marker，并显示
         mapView.getMap().clear();
         mapView.getMap().addOverlay(option);
+    }
+
+    private void locate(LatLng latLng) {
+        MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(latLng);
+        mapView.getMap().animateMapStatus(update);
     }
 }

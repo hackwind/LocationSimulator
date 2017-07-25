@@ -4,6 +4,8 @@
     <item android:drawable="@drawable/shape_round_light_red" android:state_focused="true"></item>
     <item android:drawable="@drawable/shape_round_light_red" android:state_pressed="true"></item>
     <item android:drawable="@drawable/shape_round_light_red" android:state_selected="true"></item>
+    <item android:drawable="@drawable/shape_round_red" android:state_enabled="true"></item>
+    <item android:drawable="@drawable/shape_round_light_red" android:state_enabled="false"></item>
     <item android:drawable="@drawable/shape_round_red"></item>
 
 </selector>

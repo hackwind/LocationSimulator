@@ -29,18 +29,18 @@
         <activity android:name=".activity.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FirstActivityTheme">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".activity.MyFavoriteActivity"
             android:screenOrientation="portrait">
@@ -57,25 +57,6 @@
         <activity android:name=".activity.RewardActivity"
             android:screenOrientation="portrait">
         </activity>
-
-        <activity
-            android:name="com.qihoo.appstore.common.updatesdk.lib.UpdateTipDialogActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <service
-            android:name="com.qihoo.appstore.updatelib.CheckUpdateService"
-            android:exported="false" />
-        <provider
-            android:name="com.qihoo.appstore.updatelib.UpdateProvider"
-            android:authorities="com.tonyhu.location"
-            android:grantUriPermissions="true"
-            android:exported="false">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/update_apk_path" />
-        </provider>
 
         <!-- 腾讯声明SDK所需要的组件 -->
 
