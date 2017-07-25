@@ -107,6 +107,12 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        showAD();
+    }
+
+    @Override
     public void onPause(){
         mapView.setVisibility(View.INVISIBLE);
         mapView.onPause();
