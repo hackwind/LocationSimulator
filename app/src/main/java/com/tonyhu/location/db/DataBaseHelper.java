@@ -44,6 +44,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource,Favorite.class);
+            TableUtils.createTable(connectionSource,CountDown.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,6 +54,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int i, int i1) {
         try {
             TableUtils.dropTable(connectionSource,Favorite.class,true);
+            TableUtils.dropTable(connectionSource,CountDown.class,true);
             onCreate(sqLiteDatabase,connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

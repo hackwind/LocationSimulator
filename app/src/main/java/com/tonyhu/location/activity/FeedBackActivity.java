@@ -1,8 +1,14 @@
 
 package com.tonyhu.location.activity;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qq.e.ads.banner.ADSize;
 import com.qq.e.ads.banner.AbstractBannerADListener;
@@ -20,9 +26,22 @@ public class FeedBackActivity extends BaseActivity  {
         super.onCreate(arg0);
         setContentView(R.layout.activity_feedback);
         adView = (LinearLayout)findViewById(R.id.bannerview);
+        initView();
         loadAd();
     }
-
+    private void initView(){
+        final TextView tvSearch = (TextView)findViewById(R.id.about_version);
+        tvSearch.setText(Html.fromHtml(getResources().getString(R.string.search_gongzhonghao)));
+        tvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 将文本内容放到系统剪贴板里。
+                cm.setText(getString(R.string.qq_qun));
+                Toast.makeText(FeedBackActivity.this, "QQ群号已成功复制", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void loadAd() {
         BannerView bv = new BannerView(this, ADSize.BANNER,
@@ -48,7 +67,6 @@ public class FeedBackActivity extends BaseActivity  {
         });
         adView.addView(bv);
         bv.loadAD();
-
     }
 
 

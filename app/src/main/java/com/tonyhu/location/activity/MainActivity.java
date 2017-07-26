@@ -30,6 +30,7 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
     private long lastOnBackPressed = 0;
     private int backPressCount = 0;
 
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(!isTaskRoot()) {

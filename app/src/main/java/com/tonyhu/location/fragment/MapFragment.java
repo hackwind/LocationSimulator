@@ -50,12 +50,15 @@ import com.qq.e.ads.interstitial.InterstitialAD;
 import com.tonyhu.location.R;
 import com.tonyhu.location.activity.MainActivity;
 import com.tonyhu.location.activity.SearchActivity;
+import com.tonyhu.location.db.CountDown;
+import com.tonyhu.location.db.CountDownDao;
 import com.tonyhu.location.db.Favorite;
 import com.tonyhu.location.db.FavoriteDao;
 import com.tonyhu.location.util.Constants;
 import com.tonyhu.location.util.JZLocationConverter;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class MapFragment extends Fragment implements View.OnClickListener,BaiduMap.OnMapStatusChangeListener,
@@ -159,13 +162,26 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
 
             @Override
             public void onNoAD(int arg0) {
-                Log.i("AD_DEMO", "LoadInterstitialAd Fail:" + arg0);
+                //没有广告的情况，避免无法点击穿越，赠送一次
+                int count = getChuanyueTimes();
+                updateTimes(count - 1);
             }
 
             @Override
             public void onADReceive() {
-                Log.i("AD_DEMO", "onADReceive");
-                iad.show();
+//                iad.show();
+            }
+
+            @Override
+            public void onADClicked(){
+                int count = getChuanyueTimes();
+                updateTimes(count - 1);
+            }
+
+            @Override
+            public void onADClosed() {
+                iad = null;
+                showAD();
             }
         });
         iad.loadAD();
@@ -214,6 +230,12 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
                     showAlertDialog(type);
                     return;
                 }
+                int count = getChuanyueTimes();
+                if(count >= Constants.MAX_CHUANYUE_TIMES){
+                    showClickAdDialog();
+                    return;
+                }
+                updateTimes(++count);
                 stop = false;
                 isLoopVibrate = false;
                 new Thread(new RunnableMockLocation()).start();
@@ -437,6 +459,21 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
         dialog.show(getFragmentManager(),"dialog");
     }
 
+    private void showClickAdDialog(){
+        ClickAdDialog dialog = new ClickAdDialog();
+        dialog.setBtnClickListener(new ClickAdDialog.OnDialogButtonClickListener() {
+            @Override
+            public void onLeftButtonClick() {
+                iad.show();
+            }
+
+            @Override
+            public void onRightButtonClick() {
+            }
+        });
+        dialog.show(getChildFragmentManager(),"addialog");
+    }
+
     private boolean isPositionServiceEnable() {
 //        LocationManager locationManager =
 //                ((LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE));
@@ -447,7 +484,7 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
     private void addOverlay(LatLng latLng) {
         // 构建Marker图标
         BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.location);
+                .fromResource(R.drawable.iamhere);
         // 构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions().position(latLng).icon(
                 bitmap);
@@ -485,5 +522,39 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
 
                     }
                 }).setNegativeButton("取消", null).show();
+    }
+
+    private int getChuanyueTimes() {
+        CountDownDao dao = new CountDownDao();
+        List<CountDown> list = dao.listAll();
+        if(list == null || list.size() == 0) {
+            return 0;
+        }
+        for(CountDown countDown : list) {
+            if(countDown.getType() == Constants.TYPE_CHUANYUE) {
+                return countDown.getCount();
+            }
+        }
+        return 0;
+    }
+
+    private void updateTimes(int times) {
+        CountDownDao dao = new CountDownDao();
+        List<CountDown> list = dao.listAll();
+        if(list == null || list.size() == 0) {
+            CountDown countDown = new CountDown();
+            countDown.setCount(times);
+            countDown.setType(Constants.TYPE_CHUANYUE);
+            dao.insert(countDown);
+        } else {
+            for (CountDown countDown : list) {
+                if (countDown.getType() == Constants.TYPE_CHUANYUE) {
+                    countDown.setCount(times);
+                    dao.update(countDown);
+                    return;
+                }
+            }
+        }
+
     }
 }

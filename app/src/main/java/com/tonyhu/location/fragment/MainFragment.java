@@ -1,5 +1,9 @@
 package com.tonyhu.location.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +19,7 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.tonyhu.location.R;
 import com.tonyhu.location.activity.MainActivity;
+import com.tonyhu.location.activity.SearchActivity;
 
 public class MainFragment extends Fragment implements View.OnClickListener{
     private View rootView;
@@ -27,6 +32,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     private ImageView image1;
     private ImageView image2;
     private ImageView image3;
+
 
     public MainFragment() {
 

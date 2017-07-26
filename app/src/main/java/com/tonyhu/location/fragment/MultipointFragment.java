@@ -1,6 +1,7 @@
 package com.tonyhu.location.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -10,12 +11,14 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,8 @@ import com.baidu.mapapi.model.LatLng;
 import com.qq.e.ads.interstitial.AbstractInterstitialADListener;
 import com.qq.e.ads.interstitial.InterstitialAD;
 import com.tonyhu.location.R;
+import com.tonyhu.location.db.CountDown;
+import com.tonyhu.location.db.CountDownDao;
 import com.tonyhu.location.db.Favorite;
 import com.tonyhu.location.db.FavoriteDao;
 import com.tonyhu.location.util.Constants;
@@ -79,7 +84,12 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
         etInterval = (EditText)view.findViewById(R.id.edit_interval) ;
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
-
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                repeat = b;
+            }
+        });
     }
 
     private InterstitialAD getIAD() {
@@ -94,14 +104,28 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onNoAD(int arg0) {
-                Log.i("AD_DEMO", "LoadInterstitialAd Fail:" + arg0);
+                //没有广告的情况，避免无法点击神游，赠送一次
+                int count = getShenyouTimes();
+                updateTimes(count - 1);
             }
 
             @Override
             public void onADReceive() {
-                Log.i("AD_DEMO", "onADReceive");
-                iad.show();
+//                iad.show();
             }
+
+            @Override
+            public void onADClicked(){
+                int count = getShenyouTimes();
+                updateTimes(count - 1);
+            }
+
+            @Override
+            public void onADClosed() {
+                iad = null;
+                showAD();
+            }
+
         });
         iad.loadAD();
     }
@@ -160,6 +184,13 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
             Toast.makeText(getContext(),"设定的间隔不能为0",Toast.LENGTH_LONG).show();
             return;
         }
+        int count = getShenyouTimes();
+        if(count >= Constants.MAX_CHUANYUE_TIMES){
+            showClickAdDialog();
+            return;
+        }
+        updateTimes(++count);
+
         btnStop.setEnabled(true);
         stop = false;
         checkBox.setEnabled(false);
@@ -186,6 +217,21 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
         bundle.putInt("type",type);
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(),"dialog");
+    }
+
+    private void showClickAdDialog(){
+        ClickAdDialog dialog = new ClickAdDialog();
+        dialog.setBtnClickListener(new ClickAdDialog.OnDialogButtonClickListener() {
+            @Override
+            public void onLeftButtonClick() {
+                iad.show();
+            }
+
+            @Override
+            public void onRightButtonClick() {
+            }
+        });
+        dialog.show(getChildFragmentManager(),"addialog");
     }
 
     private int getWrongType(boolean canMock, boolean isPosEnabled) {
@@ -226,7 +272,11 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
 
                     index = (int)((System.currentTimeMillis() - startTime) / interval);
                     if(index >= favorites.size()) {
-                        index = index % favorites.size() ;
+                        if(repeat) {
+                            index = index % favorites.size();
+                        } else {
+                            index = favorites.size() - 1;//没有开启循环，停留在最后一个位置不动
+                        }
                     }
 
                     try {
@@ -337,5 +387,39 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
     private void locate(LatLng latLng) {
         MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(latLng);
         mapView.getMap().animateMapStatus(update);
+    }
+
+    private int getShenyouTimes() {
+        CountDownDao dao = new CountDownDao();
+        List<CountDown> list = dao.listAll();
+        if(list == null || list.size() == 0) {
+            return 0;
+        }
+        for(CountDown countDown : list) {
+            if(countDown.getType() == Constants.TYPE_SHENYOU) {
+                return countDown.getCount();
+            }
+        }
+        return 0;
+    }
+
+    private void updateTimes(int times) {
+        CountDownDao dao = new CountDownDao();
+        List<CountDown> list = dao.listAll();
+        if(list == null || list.size() == 0) {
+            CountDown countDown = new CountDown();
+            countDown.setCount(times);
+            countDown.setType(Constants.TYPE_SHENYOU);
+            dao.insert(countDown);
+        } else {
+            for (CountDown countDown : list) {
+                if (countDown.getType() == Constants.TYPE_SHENYOU) {
+                    countDown.setCount(times);
+                    dao.update(countDown);
+                    return;
+                }
+            }
+        }
+
     }
 }

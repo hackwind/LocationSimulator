@@ -24,6 +24,7 @@ public class SettingUpDialog extends DialogFragment implements View.OnClickListe
     private LinearLayout settingup2;
     private TextView result1;
     private TextView result2;
+    private TextView btnIKnown;
 
     private int type = 0;//0：都设置正确，1：开启虚拟位置设置不正确，关闭位置服务正确；2：关闭位置服务不正确，开启虚拟位置不正确；3:都不正确
 
@@ -44,6 +45,7 @@ public class SettingUpDialog extends DialogFragment implements View.OnClickListe
         settingup2 = (LinearLayout) view.findViewById(R.id.layout_setting2);
         result1 = (TextView)view.findViewById(R.id.result_setting1);
         result2 = (TextView)view.findViewById(R.id.result_setting2);
+        btnIKnown = (TextView)view.findViewById(R.id.btn_i_known);
         final String setRight = getResources().getString(R.string.setting_right);
         final String setWrong = getResources().getString(R.string.fast_setting);
         final String setting1 = Build.VERSION.SDK_INT >= 23 ? getResources().getString(R.string.open_mock_app_high) : getResources().getString(R.string.open_mock_app_low);
@@ -72,6 +74,7 @@ public class SettingUpDialog extends DialogFragment implements View.OnClickListe
         }
         result1.setOnClickListener(this);
         result2.setOnClickListener(this);
+        btnIKnown.setOnClickListener(this);
         builder.setView(view);
         return builder.create();
     }
@@ -87,6 +90,9 @@ public class SettingUpDialog extends DialogFragment implements View.OnClickListe
             case R.id.result_setting2:
                 intent =  new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
+                dismiss();
+                break;
+            case R.id.btn_i_known:
                 dismiss();
                 break;
         }
