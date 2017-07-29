@@ -21,4 +21,7 @@ public class Constants {
     //免费最多穿越和神游次数
     public final static int MAX_CHUANYUE_TIMES = 5;
     public final static int MAX_SHENYOU_TIMES = 2;
+
+    //避免市场审核不通过（判断有意引导点击广告导致不通过），设定一个启用穿越和神游计数的起始日期
+    public static final String TEST_END_TIME = "2017-08-10";
 }

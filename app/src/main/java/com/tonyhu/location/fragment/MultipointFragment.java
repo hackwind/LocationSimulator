@@ -41,6 +41,7 @@ import com.tonyhu.location.db.Favorite;
 import com.tonyhu.location.db.FavoriteDao;
 import com.tonyhu.location.util.Constants;
 import com.tonyhu.location.util.JZLocationConverter;
+import com.tonyhu.location.util.Utils;
 
 import java.util.Date;
 import java.util.List;
@@ -189,7 +190,9 @@ public class MultipointFragment extends Fragment implements View.OnClickListener
             showClickAdDialog();
             return;
         }
-        updateTimes(++count);
+        if(Utils.timeAfterTest()) {
+            updateTimes(++count);
+        }
 
         btnStop.setEnabled(true);
         stop = false;

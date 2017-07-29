@@ -56,6 +56,7 @@ import com.tonyhu.location.db.Favorite;
 import com.tonyhu.location.db.FavoriteDao;
 import com.tonyhu.location.util.Constants;
 import com.tonyhu.location.util.JZLocationConverter;
+import com.tonyhu.location.util.Utils;
 
 import java.util.Date;
 import java.util.List;
@@ -235,7 +236,9 @@ public class MapFragment extends Fragment implements View.OnClickListener,BaiduM
                     showClickAdDialog();
                     return;
                 }
-                updateTimes(++count);
+                if(Utils.timeAfterTest()) {
+                    updateTimes(++count);
+                }
                 stop = false;
                 isLoopVibrate = false;
                 new Thread(new RunnableMockLocation()).start();
