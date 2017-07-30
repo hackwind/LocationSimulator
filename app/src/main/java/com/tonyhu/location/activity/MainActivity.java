@@ -66,6 +66,9 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
                         Intent intent = new Intent(MainActivity.this,SearchActivity.class);
                         startActivity(intent);
                         break;
+                    case R.id.btn_more:
+
+                        break;
                 }
             }
         };
