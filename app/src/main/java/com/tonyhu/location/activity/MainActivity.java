@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerTopHandler;
 import com.blunderer.materialdesignlibrary.handlers.NavigationMainContentHandler;
 import com.tonyhu.location.R;
 import com.tonyhu.location.fragment.MainFragment;
+import com.tonyhu.location.fragment.SettingUpDialog;
 import com.umeng.analytics.MobclickAgent;
 
 import static com.tonyhu.location.TonyLocationApplication.getContext;
@@ -29,12 +31,22 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
     private static final int REQUEST_PERMISSION_LOCATION = 255; // int should be between 0 and 255
     private long lastOnBackPressed = 0;
     private int backPressCount = 0;
-
+    private FrameLayout popupMenu;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initStatusBar(R.color.color_primary);
         checkPermission();
+
+        initView();
+    }
+
+    private void initView() {
+        popupMenu = (FrameLayout)findViewById(R.id.popupwindow);
+        popupMenu.findViewById(R.id.btn_favorite).setOnClickListener(mOnMenuClickListener);
+        popupMenu.findViewById(R.id.btn_setup).setOnClickListener(mOnMenuClickListener);
+        popupMenu.findViewById(R.id.btn_help).setOnClickListener(mOnMenuClickListener);
+        popupMenu.setOnClickListener(mOnMenuClickListener);
     }
 
     private void checkPermission() {
@@ -67,7 +79,11 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
                         startActivity(intent);
                         break;
                     case R.id.btn_more:
-
+                        if(popupMenu.getVisibility() == View.VISIBLE) {
+                            popupMenu.setVisibility(View.GONE);
+                        } else {
+                            popupMenu.setVisibility(View.VISIBLE);
+                        }
                         break;
                 }
             }
@@ -108,6 +124,29 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
                 startActivity(RewardActivity.class);
             } else if(title.equals(getString(R.string.drawer_about))) {
                 startActivity(AboutActivity.class);
+            }
+        }
+    };
+
+    private View.OnClickListener mOnMenuClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.btn_favorite:
+                    startActivity(MyFavoriteActivity.class);
+                    popupMenu.setVisibility(View.GONE);
+                    break;
+                case R.id.btn_setup:
+//                    SettingUpDialog dialog = new SettingUpDialog();
+//                    dialog.show(getSupportFragmentManager(),"dialog");
+                    popupMenu.setVisibility(View.GONE);
+                    break;
+                case R.id.btn_help:
+                    popupMenu.setVisibility(View.GONE);
+                    break;
+                case R.id.popupwindow:
+                    popupMenu.setVisibility(View.GONE);
+                    break;
             }
         }
     };

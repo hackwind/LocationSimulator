@@ -42,6 +42,7 @@ public abstract class NavigationDrawerActivity extends AppCompatActivity {
 
         if(getMenuItemClickListener() != null) {
             toolbar.findViewById(R.id.search_place).setOnClickListener(getMenuItemClickListener());
+            toolbar.findViewById(R.id.btn_more).setOnClickListener(getMenuItemClickListener());
         }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

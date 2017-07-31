@@ -5,38 +5,39 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_awesome_toolbar"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary" >
         <LinearLayout
             android:id="@+id/expanded_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
+            android:layout_width="200dp"
+            android:layout_height="?attr/actionBarSize"
             android:gravity="right|center_vertical"
-            android:background="@drawable/shape_round_corner_white"
-            android:stateListAnimator="@animator/touch_raise">
+            >
             <TextView
                 android:id="@+id/search_place"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="right|center_vertical"
                 android:drawablePadding="5dp"
                 android:layout_marginLeft="5dp"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp"
                 android:gravity="center_vertical"
+                android:background="@drawable/shape_round_corner_white"
                 android:drawableLeft="@drawable/ic_search_black_24dp"
                 android:textColor="#666666"
                 android:text="搜索地名"/>
-            <TextView
+            <ImageView
                 android:id="@+id/btn_more"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="┊"
+                android:layout_height="wrap_content"
+                android:src="@drawable/more"
+                android:textSize="20sp"
+                android:gravity="right|center_vertical"
                 android:textColor="@android:color/white"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
                 android:paddingRight="10dp"/>
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
@@ -55,7 +56,54 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/popupwindow"
-            android:visibility="gone"></FrameLayout>
+            android:background="#10000000"
+            android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/more_menu"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_more_bg"
+                android:layout_gravity="right"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/btn_favorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/selector_more_menu_bg"
+                    android:text="我的收藏"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#AA000000"/>
+                <TextView
+                    android:id="@+id/btn_setup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/selector_more_menu_bg"
+                    android:text="设置"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#AA000000"/>
+                <TextView
+                    android:id="@+id/btn_help"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/selector_more_menu_bg"
+                    android:text="帮助"/>
+            </LinearLayout>
+        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/left_drawer"
