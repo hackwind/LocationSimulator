@@ -1,10 +1,15 @@
 package com.tonyhu.location.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -137,8 +142,7 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
                     popupMenu.setVisibility(View.GONE);
                     break;
                 case R.id.btn_setup:
-//                    SettingUpDialog dialog = new SettingUpDialog();
-//                    dialog.show(getSupportFragmentManager(),"dialog");
+                    showSettingDialog();
                     popupMenu.setVisibility(View.GONE);
                     break;
                 case R.id.btn_help:
@@ -150,6 +154,82 @@ public class MainActivity extends com.blunderer.materialdesignlibrary.activities
             }
         }
     };
+
+    private void showSettingDialog() {
+        boolean canMock = canMockPosition();
+        boolean isPosEnabled = isPositionServiceEnable();
+        int type = getWrongType(canMock,isPosEnabled);
+        SettingUpDialog dialog = new SettingUpDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type",type);
+        dialog.setArguments(bundle);
+        dialog.show(getSupportFragmentManager(),"dialog");
+    }
+
+    private LocationManager locationManager;
+    boolean hasAddTestProvider = false;
+    private boolean canMockPosition() {
+        //具体参考：http://blog.csdn.net/doris_d/article/details/51384285
+        //Android 6.0 以下：使用Settings.Secure.ALLOW_MOCK_LOCATION判断。
+
+        boolean canMockPosition = (Settings.Secure.getInt(getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, 0) != 0)
+                || Build.VERSION.SDK_INT > 22;
+        if (canMockPosition && hasAddTestProvider == false) {
+            try {
+                String providerStr = LocationManager.GPS_PROVIDER;
+                if(locationManager == null) {
+                    locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+                }
+                LocationProvider provider = locationManager.getProvider(providerStr);
+                if (provider != null) {
+                    locationManager.addTestProvider(
+                            provider.getName()
+                            , provider.requiresNetwork()
+                            , provider.requiresSatellite()
+                            , provider.requiresCell()
+                            , provider.hasMonetaryCost()
+                            , provider.supportsAltitude()
+                            , provider.supportsSpeed()
+                            , provider.supportsBearing()
+                            , provider.getPowerRequirement()
+                            , provider.getAccuracy());
+                } else {
+                    locationManager.addTestProvider(
+                            providerStr
+                            , true, true, false, false, true, true, true
+                            , Criteria.POWER_HIGH, Criteria.ACCURACY_FINE);
+                }
+                locationManager.setTestProviderEnabled(providerStr, true);
+                locationManager.setTestProviderStatus(providerStr, LocationProvider.AVAILABLE, null, System.currentTimeMillis());
+
+                // 模拟位置可用
+                hasAddTestProvider = true;
+                canMockPosition = true;
+            } catch (SecurityException e) {
+                canMockPosition = false;
+            }
+        }
+        return canMockPosition;
+    }
+
+    private int getWrongType(boolean canMock, boolean isPosEnabled) {
+        if(canMock && !isPosEnabled) {
+            return 0;
+        } else if(!canMock && !isPosEnabled) {
+            return 1;
+        } else if(canMock && isPosEnabled) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+
+    private boolean isPositionServiceEnable() {
+//        LocationManager locationManager =
+//                ((LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE));
+//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        return false;
+    }
 
     private void startActivity(Class cls) {
         Intent intent = new Intent(this,cls);

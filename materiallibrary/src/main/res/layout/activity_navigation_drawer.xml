@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="10dp"
                     android:background="@drawable/selector_more_menu_bg"
                     android:text="我的收藏"/>
                 <View
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="10dp"
                     android:background="@drawable/selector_more_menu_bg"
                     android:text="设置"/>
                 <View
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="10dp"
                     android:background="@drawable/selector_more_menu_bg"
                     android:text="帮助"/>
             </LinearLayout>

@@ -44,7 +44,8 @@
     <string name="click_right_top">点击右上角按钮，弹出下图所示，从底部选择“从相册选择二维码”，弹出相册目录，默认第一张二维码就是之前保存的二维码。</string>
     <string name="scan_for_reward">微信扫一扫下面的二维码进行打赏</string>
 
-    <string name="setting_tip">检测到您的手机设置不正确，暂时无法开启模拟定位，请按下列提示设置后，再开启模拟定位！</string>
+    <string name="setting_tip_wrong">检测到您的手机设置不正确，暂时无法开启模拟定位，请按下列提示设置后，再开启模拟定位！</string>
+    <string name="setting_tip_right">检测到您的手机设置都正确，已经可以去开启模拟定位了！</string>
     <string name="setting_alert">知道了</string>
     <string name="close_postion_service">②关闭"位置服务"</string>
     <string name="open_mock_app_low">①开启“允许模拟位置”</string>

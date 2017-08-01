@@ -22,6 +22,7 @@ import com.tonyhu.location.R;
 public class SettingUpDialog extends DialogFragment implements View.OnClickListener {
     private LinearLayout settingup1;
     private LinearLayout settingup2;
+    private TextView tip;
     private TextView result1;
     private TextView result2;
     private TextView btnIKnown;
@@ -43,6 +44,7 @@ public class SettingUpDialog extends DialogFragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.fragment_setting_dialog, null);
         settingup1 = (LinearLayout) view.findViewById(R.id.layout_setting1);
         settingup2 = (LinearLayout) view.findViewById(R.id.layout_setting2);
+        tip = (TextView)view.findViewById(R.id.tip);
         result1 = (TextView)view.findViewById(R.id.result_setting1);
         result2 = (TextView)view.findViewById(R.id.result_setting2);
         btnIKnown = (TextView)view.findViewById(R.id.btn_i_known);
@@ -52,6 +54,7 @@ public class SettingUpDialog extends DialogFragment implements View.OnClickListe
         final String setting2 = getResources().getString(R.string.close_postion_service);
         switch (type) {
             case 0:
+                tip.setText(R.string.setting_tip_right);
                 result1.setText(Html.fromHtml(setting1 + "<font color='#4169E1'>" + setRight + "</font>"));
 
                 result2.setText(Html.fromHtml(setting2 + "<font color='#4169E1'>" + setRight + "</font>"));

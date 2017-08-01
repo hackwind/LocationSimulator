@@ -15,11 +15,12 @@
         android:textColor="@android:color/white"
         android:gravity="center"/>
     <TextView
+        android:id="@+id/tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="2"
         android:textColor="@color/detail_title"
-        android:text="@string/setting_tip"/>
+        android:text="@string/setting_tip_wrong"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
